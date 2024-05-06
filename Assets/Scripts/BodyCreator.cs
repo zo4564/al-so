@@ -43,27 +43,34 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
             Vector2 direction = clickPosition - bodyCenter;
 
             //ustaw nazwy i obs³u¿ jointy
-            string bodyPart = selector.selectedElementPrefab.name;
-            if (selector.selectedElementPrefab.name == "jointBase")
-            {
-                radius = parentCanvas.localScale.x * 120f;
-                joints++;
-                bodyPart += joints;
-            }
-            else
-            {
-                radius = parentCanvas.localScale.x * 50f;
-            }
-                
-            Vector2 constrainedPosition = bodyCenter + (direction.normalized * radius);
+            string bodyPart = PrepareBodyPart(selector.selectedElementPrefab.name);
+
 
             //stwórz element i go ustaw
+            Vector2 constrainedPosition = bodyCenter + (direction.normalized * radius);
             RectTransform newUIElement = CreateBodyPart(bodyPart, constrainedPosition, direction);
+
 
             //zaktualizuj genom
             Vector2 realPosition = (direction.normalized * radius) / (10 * parentCanvas.localScale.x);
             AddToGenom(bodyPart, realPosition);
         }
+    }
+    
+    public string PrepareBodyPart(string bodyPart)
+    {
+        if (selector.selectedElementPrefab.name == "jointBase")
+        {
+            radius = parentCanvas.localScale.x * 120f;
+            joints++;
+            bodyPart += joints;
+
+        }
+        else
+        {
+            radius = parentCanvas.localScale.x * 50f;
+        }
+        return bodyPart;
     }
     public RectTransform CreateBodyPart(string bodyPart, Vector3 constrainedPosition, Vector2 direction)
     {
@@ -74,6 +81,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         if (selector.selectedElementPrefab.name == "jointBase")
         {
             newUIElement.GetComponentInChildren<Image>().enabled = true;
+            newUIElement.GetComponentInChildren<JointCreator>().jointPosition = constrainedPosition;
         }
 
         //ustaw pozycje, skale i rotacje
