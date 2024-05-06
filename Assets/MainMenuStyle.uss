@@ -1,0 +1,14 @@
+.header {
+    font-size: 64px;
+    color: rgb(255, 255, 255);
+    -unity-font: url("project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=fd2c59dfd29880d45a8636e8d5347145&type=3#NotInter-Regular");
+    -unity-text-align: upper-center;
+}
+
+.button {
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    width: 25%;
+}
