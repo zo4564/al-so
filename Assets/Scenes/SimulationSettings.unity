@@ -4313,7 +4313,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 558789686577776567, guid: dc2545bcb3ad2a94e9c224fa302d855f, type: 3}
       propertyPath: m_Name
-      value: JointBase
+      value: jointBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 2249178810375265945, guid: dc2545bcb3ad2a94e9c224fa302d855f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2249178810375265945, guid: dc2545bcb3ad2a94e9c224fa302d855f, type: 3}
       propertyPath: m_TargetGraphic

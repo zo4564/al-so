@@ -35,25 +35,34 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (selector.selectedElementPrefab.name == "jointBase")
+        {
+            PlaceBodyPart(eventData, bodyCenter, joints);
+        }
+        else PlaceBodyPart(eventData, bodyCenter, 0);
+    }
+    public void PlaceBodyPart(PointerEventData eventData, Vector2 parentCenter, int jointIndex)
+    {
         uiElementPrefab = selector.selectedElementPrefab.GetComponent<RectTransform>();
+            
         if (uiElementPrefab != null && parentCanvas != null && !selector.destroy)
         {
             //oblicz pozycje
             Vector2 clickPosition = eventData.position;
-            Vector2 direction = clickPosition - bodyCenter;
+            Vector2 direction = clickPosition - parentCenter;
 
             //ustaw nazwy i obs³u¿ jointy
             string bodyPart = PrepareBodyPart(selector.selectedElementPrefab.name);
 
 
             //stwórz element i go ustaw
-            Vector2 constrainedPosition = bodyCenter + (direction.normalized * radius);
+            Vector2 constrainedPosition = parentCenter + (direction.normalized * radius);
             RectTransform newUIElement = CreateBodyPart(bodyPart, constrainedPosition, direction);
 
 
             //zaktualizuj genom
             Vector2 realPosition = (direction.normalized * radius) / (10 * parentCanvas.localScale.x);
-            AddToGenom(bodyPart, realPosition);
+            AddToGenom(bodyPart, realPosition, jointIndex);
         }
     }
     
@@ -63,8 +72,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         {
             radius = parentCanvas.localScale.x * 120f;
             joints++;
-            bodyPart += joints;
-
+            bodyPart = "j";
         }
         else
         {
@@ -76,12 +84,17 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     {
         //stwórz element, nazwij i dodaj metody
         RectTransform newUIElement = Instantiate(uiElementPrefab, parentCanvas);
-        newUIElement.name = bodyPart + "Clone";
         AddClickDestroy(newUIElement);
+        newUIElement.name = bodyPart + "Clone";
         if (selector.selectedElementPrefab.name == "jointBase")
         {
             newUIElement.GetComponentInChildren<Image>().enabled = true;
-            newUIElement.GetComponentInChildren<JointCreator>().jointPosition = constrainedPosition;
+            newUIElement.GetComponentInChildren<Button>().enabled = false;
+            newUIElement.GetComponentInChildren<JointCreator>().jointCenter = constrainedPosition;
+            newUIElement.GetComponentInChildren<JointCreator>().jointIndex = joints;
+            newUIElement.GetComponentInChildren<JointCreator>().bodyCreator = this;
+
+
         }
 
         //ustaw pozycje, skale i rotacje
@@ -93,9 +106,9 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         return newUIElement;
     }
 
-    public void AddToGenom(string bodyPart, Vector2 position)
+    public void AddToGenom(string bodyPart, Vector2 position, int jointIndex)
     {
-        genomCode += "#" + bodyPart + position.ToString();
+        genomCode += "#" + bodyPart + jointIndex + position.ToString();
     }
     private void AddClickDestroy(RectTransform element)
     {
@@ -123,8 +136,8 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         int count = FindObjectOfType<OrganismCounter>().count;
         string speciesName = FindObjectOfType<NameGenerator>().speciesName;
 
-        if (moving) AddToGenom("l", Vector2.zero);
-        if (defender) AddToGenom("d", Vector2.zero);
+        if (moving) AddToGenom("l", Vector2.zero, 0);
+        if (defender) AddToGenom("d", Vector2.zero, 0);
 
         Debug.Log(genomCode);
         speciesManager.AddSpecies(speciesName, genomCode, count, moving, defender);
