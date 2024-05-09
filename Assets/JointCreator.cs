@@ -23,7 +23,7 @@ public class JointCreator : MonoBehaviour, IPointerClickHandler
         // zrób tak zbey po klikniêciu w jointa u¿ywa³a siê metoda body creatora:
         //oblicza³a siê pozycja od œtordka jointa
         //ustawia³ siê genom z odpowiedni¹ nazw¹
-        bodyCreator.PlaceBodyPart(eventData, jointCenter, jointIndex);
+        bodyCreator.PlaceBodyPart(eventData, jointCenter, jointIndex - 1);
         
 
     }

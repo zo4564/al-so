@@ -30,7 +30,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
         defender = false;
         moving = false;
-        joints = 0;
+        joints = 1;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -149,7 +149,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     {
         moving = !moving;
     }
-    public void SetArmor()
+    public void SetDefender()
     {
         defender = !defender;
     }    

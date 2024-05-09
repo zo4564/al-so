@@ -17,11 +17,11 @@ public class SpeciesManager : MonoBehaviour
         idCounter = 0;
     }
 
-    public void AddSpecies(string speciesName, string genomCode, int count, bool moving, bool armor)
+    public void AddSpecies(string speciesName, string genomCode, int count, bool moving, bool defender)
     {
-        Species newSpecies = new(idCounter, speciesName, genomCode, count, moving, armor);
+        Species newSpecies = new(idCounter, speciesName, genomCode, count, moving, defender);
         createdSpecies.Add(newSpecies);
-        Debug.Log("added species: " + createdSpecies[idCounter]);
+        //Debug.Log("added species: " + createdSpecies[idCounter]);
         idCounter++;
     }
 }

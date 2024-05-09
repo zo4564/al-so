@@ -262,18 +262,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartSprites:
-  - bodyPartType: 101
+  - bodyPartType: e
     sprite: {fileID: 21300000, guid: be31c66b4e310b240acc7f23d3fcdc2f, type: 3}
-  - bodyPartType: 109
+  - bodyPartType: m
     sprite: {fileID: 21300000, guid: 6ebcf538970d9aa4ab2a72c010a3ac40, type: 3}
-  - bodyPartType: 106
+  - bodyPartType: j
     sprite: {fileID: 21300000, guid: 62ba70be9e434ff4c9e365c931c08272, type: 3}
-  - bodyPartType: 108
+  - bodyPartType: l
     sprite: {fileID: 0}
-  - bodyPartType: 103
+  - bodyPartType: g
     sprite: {fileID: 21300000, guid: b16a2c5915291864ab229281b4382db1, type: 3}
-  - bodyPartType: 112
+  - bodyPartType: p
     sprite: {fileID: 21300000, guid: 1e9bfbb701bbe6c44b99b3ff8c339341, type: 3}
+  - bodyPartType: d
+    sprite: {fileID: 0}
 --- !u!4 &1106898403
 Transform:
   m_ObjectHideFlags: 0
@@ -321,6 +323,7 @@ MonoBehaviour:
   objectPrefab: {fileID: 7578097188537875228, guid: 2aad9691489a3f54099d0d22ab47c82e, type: 3}
   numberOfObjects: 500
   maxDistanceFromCenter: 40
+  speciesManager: {fileID: 0}
 --- !u!4 &1143811457
 Transform:
   m_ObjectHideFlags: 0

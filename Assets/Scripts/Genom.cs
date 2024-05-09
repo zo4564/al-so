@@ -7,27 +7,27 @@ public class Genom
 {
     public string code;
     public int codeLength;
-    public List<char> bodyParts;
+    public List<string> bodyParts;
     public List<Vector2> positions;
 
     public Genom()
     {
         this.codeLength = 5;
-        this.bodyParts = new List<char>();
+        this.bodyParts = new List<string>();
         this.positions = new List<Vector2>();
         this.code = GenerateOrganismCode();
     }
 
     public Genom(string genomCode)
     {
-        this.bodyParts = new List<char>();
+        this.bodyParts = new List<string>();
         this.positions = new List<Vector2>();
         this.code = genomCode;
 
-        ParseGenomCode(genomCode); // Parsing the code to extract data
+        ParseGenomCode(genomCode);
     }
 
-    public Genom(int codeLength, string code, List<char> bodyParts, List<Vector2> positions)
+    public Genom(int codeLength, string code, List<string> bodyParts, List<Vector2> positions)
     {
         this.codeLength = codeLength;
         this.code = code;
@@ -50,9 +50,9 @@ public class Genom
 
         for (int i = 0; i < codeLength; i++)
         {
-            char bodyPart = GenerateRandomBodyPart();
+            string bodyPart = GenerateRandomBodyPart();
             Vector2 position = GenerateRandomVector(2f);
-            if (bodyPart == 'j')
+            if (bodyPart.Equals('j'))
                 position *= 1.5f;
 
             generatedCode += $"#{bodyPart}({position.x:F2}, {position.y:F2})";
@@ -62,9 +62,9 @@ public class Genom
         return generatedCode;
     }
 
-    private char GenerateRandomBodyPart()
+    private string GenerateRandomBodyPart()
     {
-        char[] bodyParts = { 'e', 'l', 'm', 'j', 'p', 'g' };
+        string[] bodyParts = { "e", "l", "m", "j", "p", "g" };
         return bodyParts[UnityEngine.Random.Range(0, bodyParts.Length)];
     }
 
@@ -79,14 +79,14 @@ public class Genom
     private void ParseGenomCode(string genomCode)
     {
         
-        string[] parts = genomCode.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] parts = genomCode.Split(new string[] { "#" }, StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string part in parts)
         {
-            //Debug.Log("analizuje: " + part);
 
-            char bodyPart = part[0];
-            //Debug.Log("komórka: " + bodyPart);
+            string bodyPart = part[0].ToString();
+            bodyPart += part[1].ToString();
+            Debug.Log(bodyPart);
             bodyParts.Add(bodyPart);
 
             int startIndex = part.IndexOf('(');
@@ -95,7 +95,7 @@ public class Genom
             if (startIndex >= 0 && endIndex > startIndex)
             {
                 string coordinateString = part.Substring(startIndex + 1, endIndex - startIndex - 1).Trim();
-                //Debug.Log("pozycja string: " + coordinateString);
+                
 
                 string[] coordinates = coordinateString.Split(',');
 

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using static System.Collections.Specialized.BitVector32;
 using System;
+using UnityEngine.UIElements;
 
 //po³¹czenie nazwy czêœci i sprite do niej
 [System.Serializable]
 public class BodyPartSpritePair
 {
-    public char bodyPartType;
+    public string bodyPartType;
     public Sprite sprite;
 }
 
@@ -25,22 +26,38 @@ public class OrganismSpriteGenerator : MonoBehaviour
         int parentSortingLayer = parentRenderer.sortingLayerID;
         int parentOrderInLayer = parentRenderer.sortingOrder;
 
+        List<Vector2> jointPositions = new List<Vector2>();
+        jointPositions.Add(body.transform.position);
+
         for (int i = 0; i < genom.bodyParts.Count; i++)
         {
             //szuka czêsci i pozycji i sprita
-            char bodyPart = genom.bodyParts[i];
+            string bodyPart = genom.bodyParts[i][0].ToString();
+            int jointIndex = Convert.ToInt32(genom.bodyParts[i][1].ToString());
+            Debug.Log(jointIndex + " " + bodyPart);
+
             Vector2 position = genom.positions[i];
             Sprite sprite = FindSpriteForBodyPart(bodyPart);
             position /= 2f;
             
-            //tworzy obiekt
-            GameObject cell = new GameObject(bodyPart.ToString());
-            cell.name = bodyPart.ToString();
-            cell.tag = bodyPart.ToString();
+            
+                
 
+            //tworzy obiekt
+            GameObject cell = new GameObject(bodyPart);
+            cell.name = bodyPart;
+            cell.tag = bodyPart[0].ToString();
+
+            Vector3 newPosition = new Vector3();
             //oblicza now¹ pozycje
-            Vector3 newPosition = new Vector3(position.x, position.y, 0);
-            newPosition += body.transform.position;
+            if(bodyPart.Equals("j"))
+            {
+                jointPositions.Add(CalculateBodyPartPosition(position, body.transform.position));
+                newPosition = CalculateBodyPartPosition(position, body.transform.position);
+            }
+            else    
+                newPosition = CalculateBodyPartPosition(position, jointPositions[jointIndex]);
+
             //ustawia pozycje i rotacje
             cell.transform.SetPositionAndRotation(newPosition, Quaternion.identity);
             cell.transform.SetParent(body.transform);
@@ -55,7 +72,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
             renderer.sortingOrder = parentOrderInLayer + 1;
 
             //w³¹cza movera
-            if (bodyPart.ToString().Equals("l"))
+            if (bodyPart.Equals("l"))
             {
                 body.GetComponent<Mover>().enabled = true;
             }
@@ -63,6 +80,13 @@ public class OrganismSpriteGenerator : MonoBehaviour
 
 
         }
+    }
+
+    public Vector3 CalculateBodyPartPosition(Vector2 positionFromGenom, Vector3 parentPartPosition)
+    {
+        Vector3 newPosition = new Vector3(positionFromGenom.x, positionFromGenom.y, 0);
+        newPosition += parentPartPosition;
+        return newPosition;
     }
     //generowanie sprita NIE DZIA£A
     public Sprite GenerateOrganismSprite(Genom genom)
@@ -78,7 +102,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
 
         for(int i = 1; i < genom.bodyParts.Count; i++)
         {
-            char bodyPart = genom.bodyParts[i];
+            string bodyPart = genom.bodyParts[i];
             Vector2 position = genom.positions[i];
             Sprite sprite = FindSpriteForBodyPart(bodyPart);
 
@@ -101,11 +125,11 @@ public class OrganismSpriteGenerator : MonoBehaviour
     }
 
    
-    private Sprite FindSpriteForBodyPart(char bodyPartType)
+    private Sprite FindSpriteForBodyPart(string bodyPartType)
     {
         foreach (var pair in bodyPartSprites)
         {
-            if (pair.bodyPartType == bodyPartType)
+            if (pair.bodyPartType.Equals(bodyPartType))
             {
                 return pair.sprite;
             }
