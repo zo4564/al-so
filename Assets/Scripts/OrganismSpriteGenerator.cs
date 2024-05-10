@@ -76,7 +76,15 @@ public class OrganismSpriteGenerator : MonoBehaviour
             {
                 body.GetComponent<Mover>().enabled = true;
             }
-            
+            //w³¹cza oko
+            if (bodyPart.Equals("e"))
+            {
+                VisionSensor eye = cell.AddComponent<VisionSensor>();
+                eye.enabled = true;
+                eye.detectionLayer = LayerMask.GetMask("FOOD");
+
+            }
+
 
 
         }

@@ -16,5 +16,6 @@ public class FoodSpawner : ObjectSpawner
     {
         
         obj.name = "Food" + index;
+        obj.layer = 3;
     }
 }

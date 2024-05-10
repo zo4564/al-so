@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfObjects: 10
-  maxDistanceFromCenter: 10
+  maxDistanceFromCenter: 100
   foodPrefab: {fileID: 3544695828122048642, guid: 9e83d121467c91041bcb4aeb376bd8e5, type: 3}
 --- !u!4 &185955440
 Transform:

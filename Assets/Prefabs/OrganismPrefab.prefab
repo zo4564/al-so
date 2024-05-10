@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3362047423375382294}
   - component: {fileID: 6549008123506136819}
   - component: {fileID: 7101345648267709220}
+  - component: {fileID: 9176508149575179386}
   m_Layer: 0
   m_Name: OrganismPrefab
   m_TagString: Untagged
@@ -310,3 +311,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &9176508149575179386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7578097188537875228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df5b9d59a2b0fa046867241bfcbbc659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visionSensors: []
+  mover: {fileID: 0}
+  targets: []

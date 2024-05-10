@@ -17,6 +17,6 @@ public class StartSimButton : MonoBehaviour
         {
             creator.SaveOrganism();
         }
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
