@@ -1,14 +1,21 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpeciesSpawner : ObjectSpawner
 {
     public SpeciesManager speciesManager;
+    public GameObject speciesManagerPrefab;
     public GameObject organismPrefab;
 
     private void Awake()
     {
         speciesManager = FindObjectOfType<SpeciesManager>();
+        if (!speciesManager)
+        {
+            speciesManager = Instantiate(speciesManagerPrefab).GetComponent<SpeciesManager>();
+            speciesManager.AddDefaultSpecies();
+        }
         prefab = organismPrefab; 
     }
     private void Start()
