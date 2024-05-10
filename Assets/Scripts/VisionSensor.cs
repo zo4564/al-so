@@ -12,6 +12,7 @@ public class VisionSensor : MonoBehaviour
     public int numRays = 5; 
     public float minAngle = -25f; 
     public float maxAngle = 25f;
+
     private Vector3 previousTarget = Vector3.zero;
 
     public MovementController controller;

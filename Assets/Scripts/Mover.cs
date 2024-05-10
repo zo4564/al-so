@@ -27,16 +27,13 @@ public class Mover : MonoBehaviour
     }
     private void Update()
     {
-        Move();
     }
-
-    public void Move()
+    public void RandomMove()
     {
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        MoveToPosition();
 
 
-        if ((Vector2)transform.position == targetPosition)
+        if (IsOnTargetPosition())
         {
             Vector2 randomDirection = Random.insideUnitCircle.normalized;
             targetPosition = GetRandomPosition(transform.position, randomDirection);
@@ -51,6 +48,26 @@ public class Mover : MonoBehaviour
         }
 
     }
+    public bool IsOnTargetPosition()
+    {
+        
+        if ((Vector2)transform.position == targetPosition)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void MoveToPosition()
+    {
+        targetRotation = GetTargetRotation(targetPosition);
+
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+    }
+    
     Vector2 GetDirectionInFront(float minAngle, float maxAngle)
     {
         float angle = Mathf.Atan2(targetPosition.y - transform.position.y, targetPosition.x - transform.position.x) * Mathf.Rad2Deg;

@@ -22,6 +22,19 @@ public class MovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(targets.Count == 0)
+        {
+            mover.RandomMove();
+        }
+        else 
+        {
+            mover.targetPosition = targets[0];
+            mover.MoveToPosition();
+            
+            if(mover.IsOnTargetPosition())
+            {
+                targets.Remove(targets[0]);
+            }
+        }
     }
 }
