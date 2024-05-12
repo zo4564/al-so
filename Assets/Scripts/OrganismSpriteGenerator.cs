@@ -82,6 +82,12 @@ public class OrganismSpriteGenerator : MonoBehaviour
                 VisionSensor eye = cell.AddComponent<VisionSensor>();
                 eye.enabled = true;
                 eye.detectionLayer = LayerMask.GetMask("FOOD");
+            }
+            if (bodyPart.Equals("m"))
+            {
+                Eater eater = cell.AddComponent<Eater>();
+                eater.enabled = true;
+                eater.detectionLayer = LayerMask.GetMask("FOOD");
 
             }
 

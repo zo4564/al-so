@@ -9,7 +9,7 @@ public class VisionSensor : MonoBehaviour
 
     public float detectionRange = 10f;
     public LayerMask detectionLayer; 
-    public int numRays = 5; 
+    public int numRays = 4; 
     public float minAngle = -25f; 
     public float maxAngle = 25f;
 
