@@ -109,6 +109,8 @@ public class OrganismSpriteGenerator : MonoBehaviour
             {
                 Producer producer = cell.AddComponent<Producer>();
                 producer.enabled = true;
+                body.GetComponent<Collider2D>().enabled = false;
+
 
             }
 

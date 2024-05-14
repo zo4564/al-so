@@ -15,7 +15,7 @@ public class Producer : MonoBehaviour
         foodPool = FindAnyObjectByType<FoodObjectPool>();
         position = transform.position;
         direction = transform.up;
-        foodDistance = Random.Range(1f, 5f);
+        foodDistance = Random.Range(5f, 25f);
         StartCoroutine(SpawnFoodOverTime());
 
     }

@@ -13,7 +13,10 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
     public RectTransform uiElementPrefab; 
     public RectTransform parentCanvas;
-    public RectTransform bodyCreatorRectTransform; 
+    public RectTransform bodyCreatorRectTransform;
+    public Toggle moverToggle;
+
+    public Button producerButton;
 
     public Vector2 bodyCenter;
     public float radius = 50f;
@@ -35,11 +38,15 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (selector.selectedElementPrefab.name == "jointBase")
+        if(selector.selectedElementPrefab)
         {
-            PlaceBodyPart(eventData, bodyCenter, joints);
-        }
+        if (selector.selectedElementPrefab.name == "jointBase")
+            {
+                PlaceBodyPart(eventData, bodyCenter, joints);
+            }
         else PlaceBodyPart(eventData, bodyCenter, 0);
+        }
+        
     }
     public void PlaceBodyPart(PointerEventData eventData, Vector2 parentCenter, int jointIndex)
     {
@@ -93,8 +100,12 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
             newUIElement.GetComponentInChildren<JointCreator>().jointCenter = constrainedPosition;
             newUIElement.GetComponentInChildren<JointCreator>().jointIndex = joints;
             newUIElement.GetComponentInChildren<JointCreator>().bodyCreator = this;
-
-
+        }
+        if (selector.selectedElementPrefab.name == "p")
+        {
+            moverToggle.interactable = false;
+            moverToggle.isOn = false;
+            moving = false;
         }
 
         //ustaw pozycje, skale i rotacje
@@ -148,6 +159,9 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     public void SetMover()
     {
         moving = !moving;
+        producerButton.interactable = !moving;
+        if (moving && selector.selectedElementPrefab.name == "p")
+            selector.selectedElementPrefab = null;
     }
     public void SetDefender()
     {
@@ -179,9 +193,12 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         foreach (Toggle obj in toggleObjects)
         {
             obj.isOn = false;
+            obj.interactable = true;
         }
         moving = false;
         defender = false;
+
+        producerButton.interactable = true;
     }
 
 
