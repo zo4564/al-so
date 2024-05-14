@@ -74,6 +74,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
             if (bodyPart.Equals("l"))
             {
                 body.GetComponent<Mover>().enabled = true;
+                body.GetComponent<MovementController>().enabled = true;
             }
             //w³¹cza oko
             if (bodyPart.Equals("e"))
@@ -102,6 +103,12 @@ public class OrganismSpriteGenerator : MonoBehaviour
             if (bodyPart.Equals("a"))
             {
                 body.layer = 7;
+
+            }
+            if (bodyPart.Equals("p"))
+            {
+                Producer producer = cell.AddComponent<Producer>();
+                producer.enabled = true;
 
             }
 

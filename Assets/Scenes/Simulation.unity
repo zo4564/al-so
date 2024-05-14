@@ -159,7 +159,7 @@ MonoBehaviour:
   spawnedFood: 0
   maxFoodCapacity: 1000
   feedingTime: 5
-  feedingAmount: 10
+  feedingAmount: 0
 --- !u!4 &185955440
 Transform:
   m_ObjectHideFlags: 0

@@ -53,7 +53,6 @@ MonoBehaviour:
   organismCode: 
   numberOfCells: 3
   spriteGenerator: {fileID: 0}
-  foodPrefab: {fileID: 3544695828122048642, guid: 9e83d121467c91041bcb4aeb376bd8e5, type: 3}
 --- !u!212 &3028883413738626013
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -319,7 +318,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7578097188537875228}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df5b9d59a2b0fa046867241bfcbbc659, type: 3}
   m_Name: 
