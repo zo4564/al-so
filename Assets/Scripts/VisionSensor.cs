@@ -8,7 +8,7 @@ public class VisionSensor : MonoBehaviour
     private bool raycastingEnabled = true;
 
     public float detectionRange = 10f;
-    public LayerMask detectionLayer; 
+    public LayerMask detectionLayer = 3; 
     public int numRays = 4; 
     public float minAngle = -25f; 
     public float maxAngle = 25f;
@@ -19,6 +19,8 @@ public class VisionSensor : MonoBehaviour
     private void Start()
     {
         controller = GetComponentInParent<MovementController>();
+        
+        
     }
     void Update()
     {
@@ -46,11 +48,13 @@ public class VisionSensor : MonoBehaviour
 
                 if (hit.collider != null)
                 {
-                    if (hit.transform.position != previousTarget)
+                    Debug.Log(hit.collider.tag);
+                    if (!controller.targets.Contains(hit.transform.position))
                     {
                         controller.targets.Add(hit.transform.position);
                         previousTarget = hit.transform.position;
                     }
+                    
                     raycastingEnabled = false;
                     StartCoroutine(RaycastCooldown());
                 }

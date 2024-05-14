@@ -53,6 +53,7 @@ MonoBehaviour:
   organismCode: 
   numberOfCells: 3
   spriteGenerator: {fileID: 0}
+  foodPrefab: {fileID: 3544695828122048642, guid: 9e83d121467c91041bcb4aeb376bd8e5, type: 3}
 --- !u!212 &3028883413738626013
 SpriteRenderer:
   m_ObjectHideFlags: 0

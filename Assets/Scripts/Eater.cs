@@ -6,13 +6,14 @@ public class Eater : MonoBehaviour
 {
     public float cooldownTime = 1f;
     private bool raycastingEnabled = true;
+    public FoodObjectPool foodPool;
 
     public float rayLength = 2f;
     public LayerMask detectionLayer = 3;
     // Start is called before the first frame update
     void Start()
     {
-        
+        foodPool = FindAnyObjectByType<FoodObjectPool>();
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class Eater : MonoBehaviour
 
             if (hit.collider != null)
             {
-                Destroy(hit.collider.gameObject);
+                foodPool.ReturnFood(hit.collider.gameObject);
                 Eat();
                 raycastingEnabled = false;
                 StartCoroutine(RaycastCooldown());

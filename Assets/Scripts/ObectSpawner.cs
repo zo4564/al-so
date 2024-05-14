@@ -8,7 +8,6 @@ public abstract class ObjectSpawner : MonoBehaviour
     public float maxDistanceFromCenter = 100f;
     protected GameObject prefab;
 
-    protected abstract void HandleSpawnedObject(GameObject obj, int index); 
 
     void Start()
     {
@@ -20,7 +19,6 @@ public abstract class ObjectSpawner : MonoBehaviour
         {
             GameObject newObject = Instantiate(prefab, transform.position, Quaternion.identity);
             newObject.transform.position = GetRandomPosition();
-            HandleSpawnedObject(newObject, i);
         }
     }
 

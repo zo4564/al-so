@@ -11,14 +11,17 @@ TagManager:
   - g
   - a
   - m
+  - food
+  - organism
+  - dupa
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - FOOD
+  - ORGANISM
   - Water
   - UI
-  - 
+  - FOOD
   - 
   - 
   - 

@@ -34,7 +34,6 @@ public class OrganismSpriteGenerator : MonoBehaviour
             //szuka czêsci i pozycji i sprita
             string bodyPart = genom.bodyParts[i][0].ToString();
             int jointIndex = Convert.ToInt32(genom.bodyParts[i][1].ToString());
-            Debug.Log(jointIndex + " " + bodyPart);
 
             Vector2 position = genom.positions[i];
             Sprite sprite = FindSpriteForBodyPart(bodyPart);
@@ -83,6 +82,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
                 eye.enabled = true;
                 eye.detectionLayer = LayerMask.GetMask("FOOD");
             }
+            //w³¹cza chodzenie
             if (bodyPart.Equals("m"))
             {
                 Eater eater = cell.AddComponent<Eater>();
@@ -90,12 +90,25 @@ public class OrganismSpriteGenerator : MonoBehaviour
                 eater.detectionLayer = LayerMask.GetMask("FOOD");
 
             }
+            //w³¹cza ataki
+            if (bodyPart.Equals("g"))
+            {
+                AttackSystem gun = cell.AddComponent<AttackSystem>();
+                gun.enabled = true;
+                gun.detectionLayer = LayerMask.GetMask("ORGANISM");
+
+            }
+            //dodaje odpornoœæ - przenosi na bezpieczn¹ warstwê
+            if (bodyPart.Equals("a"))
+            {
+                body.layer = 7;
+
+            }
 
 
 
         }
     }
-
     public Vector3 CalculateBodyPartPosition(Vector2 positionFromGenom, Vector3 parentPartPosition)
     {
         Vector3 newPosition = new Vector3(positionFromGenom.x, positionFromGenom.y, 0);

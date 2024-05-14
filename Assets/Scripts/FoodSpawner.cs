@@ -4,31 +4,28 @@ using System.Collections;
 
 public class FoodSpawner : ObjectSpawner
 {
-    public GameObject foodPrefab;
+    public FoodObjectPool foodPool;
     public int spawnedFood = 0;
     public int maxFoodCapacity = 1000;
-    public float feedingTime = 5f;
+    public float feedingTime = 100f;
+    public int feedingAmount = 10;
 
-    private void Awake()
-    {
-        prefab = foodPrefab; 
-    }
     private void Start()
     {
         StartCoroutine(SpawnFoodOverTime());
-    }
-    protected override void HandleSpawnedObject(GameObject obj, int index)
-    {
-        
-        obj.name = "Food" + index;
-        obj.layer = 3;
     }
     IEnumerator SpawnFoodOverTime()
     {
         while (true)
         {
-            yield return new WaitForSeconds(feedingTime * Random.Range(0.8f, 1.2f));
-            SpawnObjects();
+            yield return new WaitForSeconds(feedingTime);
+            for(int i = 0; i < feedingAmount; i++)
+            {
+                GameObject food = foodPool.GetFood();
+                food.transform.position = GetRandomPosition();
+                foodPool.HandleFood(food);
+                    
+            }
         }
     }
 }

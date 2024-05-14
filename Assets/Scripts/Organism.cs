@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Globalization;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //organizm posiada genom i swój generator, który go buduje
@@ -12,7 +13,7 @@ public class Organism : MonoBehaviour
 
     void Start()
     {
-
+        
     }
     
     public void SetCode(string genomCode)
@@ -40,5 +41,6 @@ public class Organism : MonoBehaviour
         GenerateOrganism();
         
     }
-    
+
+
 }

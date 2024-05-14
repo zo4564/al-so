@@ -10,6 +10,7 @@ public class SpeciesSpawner : ObjectSpawner
 
     private void Awake()
     {
+        Physics2D.queriesStartInColliders = false;
         speciesManager = FindObjectOfType<SpeciesManager>();
         if (!speciesManager)
         {
@@ -35,21 +36,13 @@ public class SpeciesSpawner : ObjectSpawner
             {
                 GameObject newOrganism = Instantiate(prefab, transform.position, Quaternion.identity);
                 newOrganism.transform.position = GetRandomPosition();
+                newOrganism.layer = 3;
                 newOrganism.name = speciesName;
                 newOrganism.GetComponentInChildren<Organism>().SpecifyOrganism(speciesGenomCode);
+                
+                newOrganism.tag = "organism";
             }
         }
     }
 
-    protected override void HandleSpawnedObject(GameObject obj, int index)
-    {
-        if (speciesManager.createdSpecies.Count > 0)
-        {
-            int speciesIndex = index % speciesManager.createdSpecies.Count;
-            var species = speciesManager.createdSpecies[speciesIndex];
-
-            obj.name = species.SpeciesName; 
-            obj.GetComponentInChildren<Organism>().SpecifyOrganism(species.GenomCode);
-        }
-    }
 }
