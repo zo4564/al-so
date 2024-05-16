@@ -10,10 +10,13 @@ public class Eater : MonoBehaviour
 
     public float rayLength = 2f;
     public LayerMask detectionLayer = 3;
+
+    public StaminaSystem staminaSystem;
     // Start is called before the first frame update
     void Start()
     {
         foodPool = FindAnyObjectByType<FoodObjectPool>();
+        staminaSystem = GetComponentInParent<StaminaSystem>();
     }
 
     // Update is called once per frame
@@ -54,6 +57,6 @@ public class Eater : MonoBehaviour
     }
     public void Eat()
     {
-
+        staminaSystem.RegenerateStamina();
     }
 }

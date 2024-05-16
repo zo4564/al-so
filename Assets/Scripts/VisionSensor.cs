@@ -48,7 +48,6 @@ public class VisionSensor : MonoBehaviour
 
                 if (hit.collider != null)
                 {
-                    Debug.Log(hit.collider.tag);
                     if (!controller.targets.Contains(hit.transform.position))
                     {
                         controller.targets.Add(hit.transform.position);

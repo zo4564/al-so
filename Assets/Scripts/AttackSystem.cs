@@ -68,6 +68,5 @@ public class AttackSystem : MonoBehaviour
         Destroy(target);
         raycastingEnabled = false;
         StartCoroutine(RaycastCooldown());
-        Debug.Log("attack");
     }
 }

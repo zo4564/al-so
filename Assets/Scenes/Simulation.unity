@@ -159,7 +159,7 @@ MonoBehaviour:
   spawnedFood: 0
   maxFoodCapacity: 1000
   feedingTime: 5
-  feedingAmount: 0
+  feedingAmount: 10
 --- !u!4 &185955440
 Transform:
   m_ObjectHideFlags: 0
@@ -439,6 +439,7 @@ MonoBehaviour:
   organismCode: 
   numberOfCells: 5
   spriteGenerator: {fileID: 0}
+  staminaSystem: {fileID: 0}
 --- !u!4 &1165518545
 Transform:
   m_ObjectHideFlags: 0
@@ -506,6 +507,65 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2112968521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2112968523}
+  - component: {fileID: 2112968524}
+  m_Layer: 0
+  m_Name: EnergyCalculator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2112968523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112968521}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 16.93622, y: -2.3488708, z: -0.4143359}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2112968524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112968521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0716bf7d9b704e458e0ed9e62252d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartCost:
+  - bodyPartType: e
+    cost: 1
+  - bodyPartType: l
+    cost: 1
+  - bodyPartType: m
+    cost: 1
+  - bodyPartType: p
+    cost: 1
+  - bodyPartType: a
+    cost: 1
+  - bodyPartType: j
+    cost: 1
+  - bodyPartType: g
+    cost: 1
 --- !u!1001 &264878278629042346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -573,3 +633,4 @@ SceneRoots:
   - {fileID: 264878278629042346}
   - {fileID: 185955440}
   - {fileID: 1143811457}
+  - {fileID: 2112968523}

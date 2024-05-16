@@ -27,7 +27,7 @@ public class SpeciesManager : MonoBehaviour
     public void AddDefaultSpecies()
     {
         createdSpecies = new List<Species>();
-        Species newSpecies = new(idCounter, "bambik", "#p0(-3, 3)#e0(3, 3)#e0(-3, -3)#e0(3, -3)#m0(0, 5)", 2, false, false, 5);
+        Species newSpecies = new(idCounter, "bambik", "#e0(3, 3)#e0(-3, -3)#m0(0, 5)#l0(2, 300)", 2, true, false, 2);
         createdSpecies.Add(newSpecies);
         //Debug.Log("added species: " + createdSpecies[idCounter]);
         idCounter++;

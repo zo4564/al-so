@@ -171,6 +171,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     {
         moving = !moving;
         producerButton.interactable = !moving;
+        moverSlider.interactable = moving;
         if (moving && selector.selectedElementPrefab.name == "p")
             selector.selectedElementPrefab = null;
     }

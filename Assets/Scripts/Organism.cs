@@ -10,10 +10,12 @@ public class Organism : MonoBehaviour
     public string organismCode; 
     public int numberOfCells;
     public OrganismSpriteGenerator spriteGenerator;
+    public StaminaSystem staminaSystem;
 
+    public FoodObjectPool foodPool;
     void Start()
     {
-        
+        foodPool = FindAnyObjectByType<FoodObjectPool>();
     }
     
     public void SetCode(string genomCode)
@@ -40,6 +42,14 @@ public class Organism : MonoBehaviour
         Debug.Log(genom);
         GenerateOrganism();
         
+    }
+    
+    public void Die()
+    {
+        GameObject food = foodPool.GetFood();
+        foodPool.HandleFood(food);
+        food.transform.position = transform.position;
+        Destroy(this.gameObject);
     }
 
 
