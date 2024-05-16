@@ -76,6 +76,11 @@ public class OrganismSpriteGenerator : MonoBehaviour
                 body.GetComponent<Mover>().enabled = true;
                 body.GetComponent<MovementController>().enabled = true;
             }
+            if (bodyPart.Equals("s"))
+            {
+                body.GetComponent<Mover>().moveSpeed = position.x;
+                body.GetComponent<Mover>().rotationSpeed = position.y;
+            }
             //w³¹cza oko
             if (bodyPart.Equals("e"))
             {

@@ -8,8 +8,9 @@ public struct Species
     public int Count { get; }
     public bool Moving { get; }
     public bool Defender { get; }
+    public float Speed { get; }
 
-    public Species(int id, string speciesName, string genomCode, int count, bool moving, bool defender)
+    public Species(int id, string speciesName, string genomCode, int count, bool moving, bool defender, float speed)
     {
         Id = id;
         SpeciesName = speciesName;
@@ -17,10 +18,11 @@ public struct Species
         Count = count;
         Moving = moving;
         Defender = defender;
+        Speed = speed;
     }
 
     public override string ToString()
     {
-        return $"Id: {Id}, SpeciesName: {SpeciesName}, Genom: {GenomCode}, Count: {Count}, Moving: {Moving}, Defender: {Defender}";
+        return $"Id: {Id}, SpeciesName: {SpeciesName}, Genom: {GenomCode}, Count: {Count}, Moving: {Moving}, Defender: {Defender}, Speed: {Speed}";
     }
 }

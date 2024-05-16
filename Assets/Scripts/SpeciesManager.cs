@@ -17,9 +17,9 @@ public class SpeciesManager : MonoBehaviour
         idCounter = 0;
     }
 
-    public void AddSpecies(string speciesName, string genomCode, int count, bool moving, bool defender)
+    public void AddSpecies(string speciesName, string genomCode, int count, bool moving, bool defender, float speed)
     {
-        Species newSpecies = new(idCounter, speciesName, genomCode, count, moving, defender);
+        Species newSpecies = new(idCounter, speciesName, genomCode, count, moving, defender, speed);
         createdSpecies.Add(newSpecies);
         //Debug.Log("added species: " + createdSpecies[idCounter]);
         idCounter++;
@@ -27,7 +27,7 @@ public class SpeciesManager : MonoBehaviour
     public void AddDefaultSpecies()
     {
         createdSpecies = new List<Species>();
-        Species newSpecies = new(idCounter, "bambik", "#p0(-3, 3)#e0(3, 3)#e0(-3, -3)#e0(3, -3)#m0(0, 5)", 2, false, false);
+        Species newSpecies = new(idCounter, "bambik", "#p0(-3, 3)#e0(3, 3)#e0(-3, -3)#e0(3, -3)#m0(0, 5)", 2, false, false, 5);
         createdSpecies.Add(newSpecies);
         //Debug.Log("added species: " + createdSpecies[idCounter]);
         idCounter++;

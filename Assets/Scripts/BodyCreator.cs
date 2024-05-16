@@ -15,6 +15,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     public RectTransform parentCanvas;
     public RectTransform bodyCreatorRectTransform;
     public Toggle moverToggle;
+    public Slider moverSlider;
 
     public Button producerButton;
 
@@ -25,6 +26,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     public bool moving;
     public bool defender;
     public string genomCode;
+    public float speed;
     public void Start()
     {
         speciesManager = FindObjectOfType<SpeciesManager>();
@@ -106,6 +108,10 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
             moverToggle.interactable = false;
             moverToggle.isOn = false;
             moving = false;
+            moverSlider.interactable = false;
+            speed = 0f;
+            moverSlider.value = speed;
+
         }
 
         //ustaw pozycje, skale i rotacje
@@ -147,11 +153,16 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         int count = FindObjectOfType<OrganismCounter>().count;
         string speciesName = FindObjectOfType<NameGenerator>().speciesName;
 
-        if (moving) AddToGenom("l", Vector2.zero, 0);
+        if (moving)
+        {
+            AddToGenom("l", Vector2.zero, 0);
+            AddToGenom("s", new Vector2(speed, 300f), 0);
+        }
         if (defender) AddToGenom("d", Vector2.zero, 0);
 
+
         Debug.Log(genomCode);
-        speciesManager.AddSpecies(speciesName, genomCode, count, moving, defender);
+        speciesManager.AddSpecies(speciesName, genomCode, count, moving, defender, speed);
         ResetOrganism();
       
         
@@ -166,7 +177,11 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     public void SetDefender()
     {
         defender = !defender;
-    }    
+    }   
+    public void SetSpeed()
+    {
+        speed = moverSlider.value;
+    }
     public void ResetOrganism()
     {
         //usuñ dodane obiekty
@@ -199,6 +214,9 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         defender = false;
 
         producerButton.interactable = true;
+        moverSlider.interactable = true;
+        speed = 2f;
+        moverSlider.value = speed;
     }
 
 
