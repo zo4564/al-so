@@ -13,9 +13,11 @@ public class Organism : MonoBehaviour
     public StaminaSystem staminaSystem;
 
     public FoodObjectPool foodPool;
+    public OrganismObjectPool organismPool;
     void Start()
     {
         foodPool = FindAnyObjectByType<FoodObjectPool>();
+        organismPool = FindAnyObjectByType<OrganismObjectPool>();
     }
     
     public void SetCode(string genomCode)
@@ -31,15 +33,15 @@ public class Organism : MonoBehaviour
     public void GenerateOrganism()
     {
         spriteGenerator = FindAnyObjectByType<OrganismSpriteGenerator>();
+        
         spriteGenerator.GenerateBodyObjects(genom, this.gameObject);
         
     }
     public void SpecifyOrganism(string genomCode)
     {
         SetCode(genomCode);
+
         InitializeGenom();
-        Debug.Log("genom organizmu: ");
-        Debug.Log(genom);
         GenerateOrganism();
         
     }
@@ -49,7 +51,7 @@ public class Organism : MonoBehaviour
         GameObject food = foodPool.GetFood();
         foodPool.HandleFood(food);
         food.transform.position = transform.position;
-        Destroy(this.gameObject);
+        organismPool.ReturnOrganism(this.gameObject);
     }
 
 

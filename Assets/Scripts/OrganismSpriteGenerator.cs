@@ -16,8 +16,13 @@ public class BodyPartSpritePair
 //generator czêsci cia³a konkretnych organizmów, buduje je na podstawie genomu
 public class OrganismSpriteGenerator : MonoBehaviour
 {
-    public List<BodyPartSpritePair> bodyPartSprites; 
+    public OrganismObjectPool organismPool;
+    public List<BodyPartSpritePair> bodyPartSprites;
 
+    public void Start()
+    {
+        organismPool = FindAnyObjectByType<OrganismObjectPool>();
+    }
     //zrobi czêœci cia³a jako nowe obiekty
     public void GenerateBodyObjects(Genom genom, GameObject body)
     {
@@ -38,12 +43,13 @@ public class OrganismSpriteGenerator : MonoBehaviour
             Vector2 position = genom.positions[i];
             Sprite sprite = FindSpriteForBodyPart(bodyPart);
             position /= 2f;
+
             
-            
-                
+
+
 
             //tworzy obiekt
-            GameObject cell = new GameObject(bodyPart);
+            GameObject cell = organismPool.GetBodyPart();
             cell.name = bodyPart;
             cell.tag = bodyPart[0].ToString();
 

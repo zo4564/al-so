@@ -8,16 +8,20 @@ public class SpeciesSpawner : ObjectSpawner
     public GameObject speciesManagerPrefab;
     public GameObject organismPrefab;
 
+    public OrganismObjectPool organismPool;
+
     private void Awake()
     {
         Physics2D.queriesStartInColliders = false;
+        organismPool = FindAnyObjectByType<OrganismObjectPool>();
+
         speciesManager = FindObjectOfType<SpeciesManager>();
         if (!speciesManager)
         {
             speciesManager = Instantiate(speciesManagerPrefab).GetComponent<SpeciesManager>();
             speciesManager.AddDefaultSpecies();
         }
-        prefab = organismPrefab; 
+        organismPool.organismPrefab = organismPrefab; 
     }
     private void Start()
     {
@@ -34,13 +38,13 @@ public class SpeciesSpawner : ObjectSpawner
 
             for (int i = 0; i < speciesCount; i++)
             {
-                GameObject newOrganism = Instantiate(prefab, transform.position, Quaternion.identity);
+                GameObject newOrganism = organismPool.GetOrganism();
                 newOrganism.transform.position = GetRandomPosition();
                 newOrganism.layer = 3;
                 newOrganism.name = speciesName;
+                newOrganism.tag = "organism";
                 newOrganism.GetComponentInChildren<Organism>().SpecifyOrganism(speciesGenomCode);
                 
-                newOrganism.tag = "organism";
             }
         }
     }

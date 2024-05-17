@@ -65,7 +65,7 @@ public class AttackSystem : MonoBehaviour
         GameObject food = foodPool.GetFood();
         foodPool.HandleFood(food);
         food.transform.position = targetPosition;
-        Destroy(target);
+        target.GetComponent<Organism>().Die();
         raycastingEnabled = false;
         StartCoroutine(RaycastCooldown());
     }

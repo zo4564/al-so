@@ -327,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49b2b629c09669408da22efb9bfcb76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  organismPool: {fileID: 0}
   bodyPartSprites:
   - bodyPartType: e
     sprite: {fileID: 21300000, guid: be31c66b4e310b240acc7f23d3fcdc2f, type: 3}
@@ -367,6 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1143811457}
   - component: {fileID: 1143811456}
+  - component: {fileID: 1143811458}
   m_Layer: 0
   m_Name: OrganismGenerator
   m_TagString: Untagged
@@ -391,6 +393,7 @@ MonoBehaviour:
   speciesManager: {fileID: 0}
   speciesManagerPrefab: {fileID: 1893667539143496674, guid: 0012ba2eb5f9dd0459157297cf5ad319, type: 3}
   organismPrefab: {fileID: 7578097188537875228, guid: 2aad9691489a3f54099d0d22ab47c82e, type: 3}
+  organismPool: {fileID: 1143811458}
 --- !u!4 &1143811457
 Transform:
   m_ObjectHideFlags: 0
@@ -406,6 +409,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1143811458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143811455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1823cdeb4e1f454b89e33558dc99575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  organismPrefab: {fileID: 7578097188537875228, guid: 2aad9691489a3f54099d0d22ab47c82e, type: 3}
+  bodyPartPrefab: {fileID: 6279214030052332146, guid: 7e9b93fb2c0ff8142942482de26f7e38, type: 3}
+  poolSize: 100
 --- !u!1 &1165518543
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +458,8 @@ MonoBehaviour:
   numberOfCells: 5
   spriteGenerator: {fileID: 0}
   staminaSystem: {fileID: 0}
+  foodPool: {fileID: 0}
+  organismPool: {fileID: 0}
 --- !u!4 &1165518545
 Transform:
   m_ObjectHideFlags: 0
