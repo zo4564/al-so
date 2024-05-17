@@ -9,7 +9,7 @@ public class AttackSystem : MonoBehaviour
     private bool raycastingEnabled = true;
 
     public FoodObjectPool foodPool;
-    public float rayLength = 3f;
+    public float rayLength = 4f;
     public LayerMask detectionLayer = 3;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class AttackSystem : MonoBehaviour
         if (raycastingEnabled)
         {
             Vector3 direction1 = transform.right;
-            Vector3 startPosition1 = transform.position - transform.right + transform.up;
+            Vector3 startPosition1 = transform.position - (2 * transform.right) + transform.up;
 
             //Vector3 direction2 = transform.up;
             //Vector3 startPosition2 = transform.position;
@@ -68,5 +68,16 @@ public class AttackSystem : MonoBehaviour
         target.GetComponent<Organism>().Die();
         raycastingEnabled = false;
         StartCoroutine(RaycastCooldown());
+    }
+    public void SafeReproduce()
+    {
+        raycastingEnabled = false;
+        StartCoroutine(ReproductionCooldown());
+    }
+    IEnumerator ReproductionCooldown()
+    {
+        yield return new WaitForSeconds(5);
+
+        raycastingEnabled = true;
     }
 }

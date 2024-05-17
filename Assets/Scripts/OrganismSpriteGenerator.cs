@@ -104,6 +104,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
                 AttackSystem gun = cell.AddComponent<AttackSystem>();
                 gun.enabled = true;
                 gun.detectionLayer = LayerMask.GetMask("ORGANISM");
+                body.GetComponent<ReproductionSystem>().attackSystem = gun;
 
             }
             //dodaje odpornoœæ - przenosi na bezpieczn¹ warstwê

@@ -13,11 +13,18 @@ public class ReproductionSystem : MonoBehaviour
     public int generation;
     public OrganismObjectPool organismPool;
 
+    public AttackSystem attackSystem;
+
     // Start is called before the first frame update
     void Start()
     {
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
         collectedFood = 0;
+
+        if (attackSystem)
+        {
+            attackSystem.SafeReproduce();
+        }
     }
 
     // Update is called once per frame
@@ -28,6 +35,7 @@ public class ReproductionSystem : MonoBehaviour
     public void Reproduce()
     {
         Genom childGenom = GetMutatedGenom(GetComponent<Organism>().genom);
+        if (attackSystem) attackSystem.SafeReproduce();
 
         GameObject newOrganism = organismPool.GetOrganism();
 
@@ -52,5 +60,5 @@ public class ReproductionSystem : MonoBehaviour
         }
         return false;
     }
-    
+
 }
