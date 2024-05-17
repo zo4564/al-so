@@ -12,11 +12,13 @@ public class Eater : MonoBehaviour
     public LayerMask detectionLayer = 3;
 
     public StaminaSystem staminaSystem;
+    public ReproductionSystem reproductionSystem;
     // Start is called before the first frame update
     void Start()
     {
         foodPool = FindAnyObjectByType<FoodObjectPool>();
         staminaSystem = GetComponentInParent<StaminaSystem>();
+        reproductionSystem = GetComponentInParent<ReproductionSystem>();
     }
 
     // Update is called once per frame
@@ -57,6 +59,16 @@ public class Eater : MonoBehaviour
     }
     public void Eat()
     {
-        staminaSystem.RegenerateStamina();
+        if (staminaSystem.currentStamina > 75)
+            reproductionSystem.collectedFood++;
+        else staminaSystem.RegenerateStamina();
+
+        if(reproductionSystem.CheckIfReady())
+        {
+            reproductionSystem.Reproduce();
+            Debug.Log("reproduce");
+
+            reproductionSystem.collectedFood = 0;
+        }
     }
 }

@@ -25,6 +25,7 @@ public class Genom
         this.code = genomCode;
 
         ParseGenomCode(genomCode);
+        this.codeLength = this.bodyParts.Count;
     }
 
     public Genom(int codeLength, string code, List<string> bodyParts, List<Vector2> positions)
@@ -33,6 +34,35 @@ public class Genom
         this.code = code;
         this.bodyParts = bodyParts;
         this.positions = positions;
+    }
+
+    public Genom(Genom parentGenom, float mutationFactor)
+    {
+        this.codeLength = parentGenom.codeLength;
+        this.bodyParts = parentGenom.bodyParts;
+        this.positions = parentGenom.positions;
+        this.code = parentGenom.code;
+        //foreach(var bodyPart in this.bodyParts)
+        //{
+        //    if(UnityEngine.Random.Range(0, 100) < mutationFactor / 2)
+        //    {
+        //        this.bodyParts.Add(GenerateRandomBodyPart());
+        //        this.positions.Add(GenerateRandomVector(3f));
+        //        Debug.Log("Mutation - add: "+ bodyPart);
+        //    }
+        //    else if(UnityEngine.Random.Range(0, 100) < mutationFactor)
+        //    {
+        //        int index = UnityEngine.Random.Range(0, this.bodyParts.Count);
+        //        if (this.bodyParts[index] != null && this.bodyParts[index] != "j") 
+        //        {
+        //            this.bodyParts.RemoveAt(index);
+        //            this.positions.RemoveAt(index);
+        //            Debug.Log("Mutation - remove: " + bodyPart);
+        //        }
+        //    }
+        //}
+        //this.codeLength = this.bodyParts.Count;
+        //this.code = GenerateOrganismCode();
     }
     public override string ToString()
     {
@@ -64,7 +94,7 @@ public class Genom
 
     private string GenerateRandomBodyPart()
     {
-        string[] bodyParts = { "e", "l", "m", "j", "p", "g" };
+        string[] bodyParts = { "e", "m", "j", "p", "g" };
         return bodyParts[UnityEngine.Random.Range(0, bodyParts.Length)];
     }
 
@@ -74,6 +104,29 @@ public class Genom
         float x = range * Mathf.Cos(angle);
         float y = range * Mathf.Sin(angle);
         return new Vector2(x, y);
+    }
+    public int CalculateRequiredFood()
+    {
+        int food = 0;
+        for (int i = 0; i < codeLength; i++)
+        {
+            food++;
+            //if (bodyParts[i].Equals("l"))
+            //{
+            //    food += Convert.ToInt32(positions[i].x);
+            //    food += Convert.ToInt32(positions[i].y / 100);
+            //}
+            //if (bodyParts[i].Equals("g"))
+            //{
+            //    food += 3;
+            //}
+            //if (bodyParts[i].Equals("a"))
+            //{
+            //    food += 2;
+            //}
+        }
+        Debug.Log("required food: "+food);
+        return food;
     }
 
     private void ParseGenomCode(string genomCode)

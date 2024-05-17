@@ -11,6 +11,7 @@ public class Organism : MonoBehaviour
     public int numberOfCells;
     public OrganismSpriteGenerator spriteGenerator;
     public StaminaSystem staminaSystem;
+    public ReproductionSystem reproductionSystem;
 
     public FoodObjectPool foodPool;
     public OrganismObjectPool organismPool;
@@ -43,6 +44,8 @@ public class Organism : MonoBehaviour
 
         InitializeGenom();
         GenerateOrganism();
+
+        reproductionSystem.requiredFood = genom.CalculateRequiredFood();
         
     }
     
@@ -53,6 +56,7 @@ public class Organism : MonoBehaviour
         food.transform.position = transform.position;
         organismPool.ReturnOrganism(this.gameObject);
     }
+
 
 
 }

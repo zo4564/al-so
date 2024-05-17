@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3276335539639120340}
   - component: {fileID: 547314120536606852}
   - component: {fileID: 5709128960509841383}
+  - component: {fileID: 138003992255766033}
   - component: {fileID: 3028883413738626013}
   - component: {fileID: 1870684986064849601}
   - component: {fileID: 3362047423375382294}
@@ -55,7 +56,9 @@ MonoBehaviour:
   numberOfCells: 3
   spriteGenerator: {fileID: 0}
   staminaSystem: {fileID: 5709128960509841383}
+  reproductionSystem: {fileID: 138003992255766033}
   foodPool: {fileID: 0}
+  organismPool: {fileID: 0}
 --- !u!114 &5709128960509841383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +76,24 @@ MonoBehaviour:
   maxStamina: 100
   currentStamina: 0
   staminaRegenRate: 5
+--- !u!114 &138003992255766033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7578097188537875228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ba764a5b167a14dbc1b8a7d87cac1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectedFood: 0
+  requiredFood: 0
+  reproductionCost: 0
+  mutationFactor: 10
+  generation: 0
+  organismPool: {fileID: 0}
 --- !u!212 &3028883413738626013
 SpriteRenderer:
   m_ObjectHideFlags: 0

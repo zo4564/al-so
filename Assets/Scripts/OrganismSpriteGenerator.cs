@@ -44,10 +44,6 @@ public class OrganismSpriteGenerator : MonoBehaviour
             Sprite sprite = FindSpriteForBodyPart(bodyPart);
             position /= 2f;
 
-            
-
-
-
             //tworzy obiekt
             GameObject cell = organismPool.GetBodyPart();
             cell.name = bodyPart;
