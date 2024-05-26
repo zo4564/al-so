@@ -25,30 +25,21 @@ public class Genom : MonoBehaviour
         code = genomCode;
 
         ParseGenomCode(genomCode);
-        Mutate(mutationFactor);
-
-        
-
-
-        code = GenerateOrganismCode();
+        Mutate();
     }
 
 
 
-    public void Mutate(float mutationFactor)
+    public void Mutate()
     {
-        int randomInt = UnityEngine.Random.Range(1, 100);
-        Debug.Log("random: " + randomInt + "factor: " + mutationFactor);
+        // TODO: poprawiæ generowanie pozycji i zrobiæ ¿eby mutacje zale¿a³y od mutationfactor
+        string bodyPart = GenerateRandomBodyPart();
+        Vector2 position = GenerateRandomVector(5f);
+        bodyParts.Add(bodyPart);
+        positions.Add(position);
+        code = UpdateGenomCode(bodyPart, position);
+          
         
-        if ( randomInt < mutationFactor)
-        {
-            Debug.Log("mutation!");
-            string bodyPart = GenerateRandomBodyPart();
-            Vector2 position = GenerateRandomVector(5f);
-            bodyParts.Add(bodyPart);
-            positions.Add(position);
-           
-        }
         codeLength = bodyParts.Count;
 
     }
@@ -126,6 +117,13 @@ public class Genom : MonoBehaviour
         return food;
     }
 
+    private string UpdateGenomCode(string bodyPart, Vector2 position)
+    {
+        string newCode = code;
+        newCode += $"#{bodyPart}({position.x:F2}, {position.y:F2})";
+        return newCode;
+
+    }
     private void ParseGenomCode(string genomCode)
     {
         
@@ -149,17 +147,14 @@ public class Genom : MonoBehaviour
                 
 
                 string[] coordinates = coordinateString.Split(',');
-
-                if (coordinates.Length == 2)
-                {
-                    string coordX = coordinates[0].Trim(); 
-                    string coordY = coordinates[1].Trim();
-                    
-                    float x = float.Parse(coordX, CultureInfo.InvariantCulture);
-                    float y = float.Parse(coordY, CultureInfo.InvariantCulture);
-                    //Debug.Log(x + ", " + y);
-                    positions.Add(new Vector2(x, y));
-                }
+                
+                string coordX = coordinates[0].Trim(); 
+                string coordY = coordinates[1].Trim();
+                   
+                float x = float.Parse(coordX, CultureInfo.InvariantCulture);
+                float y = float.Parse(coordY, CultureInfo.InvariantCulture);
+                positions.Add(new Vector2(x, y));
+                
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -43,7 +44,12 @@ public class SpeciesSpawner : ObjectSpawner
                 newOrganism.layer = 3;
                 newOrganism.name = speciesName;
                 newOrganism.tag = "organism";
-                newOrganism.GetComponentInChildren<Organism>().SpecifyOrganism(speciesGenomCode);
+
+                Organism organism = newOrganism.GetComponentInChildren<Organism>();
+                //organism.SetCode(speciesGenomCode);
+                //organism.genom.GenerateGenom(speciesGenomCode);
+                //organism.SpecifyOrganism(speciesGenomCode);
+                organism.WakeUp(speciesGenomCode);
                 
             }
         }

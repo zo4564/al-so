@@ -40,13 +40,19 @@ public class Organism : MonoBehaviour
         spriteGenerator.GenerateBodyObjects(genom, gameObject);
         
     }
-    public void SpecifyOrganism(string genomCode)
+    public void WakeUp(string genomCode)
     {
         SetCode(genomCode);
+        genom.GenerateGenom(genomCode);
+        SpecifyOrganism(genomCode);
+    }
+    public void SpecifyOrganism(string genomCode)
+    {
+        // to te¿ chyba tylko za pierwszym razem: SetCode(genomCode);
 
         genom.SetMutationFactor(10);
-        genom.GenerateGenom(organismCode);
-
+        // to powinno byæ tylko przy pierwszej generacji: genom.GenerateGenom(organismCode);
+        //genom.Mutate();
         GenerateOrganism();
 
         reproductionSystem.requiredFood = genom.CalculateRequiredFood();

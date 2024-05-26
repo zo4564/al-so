@@ -46,7 +46,7 @@ public class ReproductionSystem : MonoBehaviour
         newOrganism.GetComponent<ReproductionSystem>().generation = generation + 1;
         //newOrganism.GetComponent<Genom>().Mutate(mutationFactor);
 
-        newOrganism.GetComponentInChildren<Organism>().SpecifyOrganism(childGenom.code);
+        newOrganism.GetComponentInChildren<Organism>().WakeUp(childGenom.code);
     }
     public bool CheckIfReady()
     {
