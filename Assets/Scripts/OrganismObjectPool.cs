@@ -10,6 +10,8 @@ public class OrganismObjectPool : MonoBehaviour
     private Queue<GameObject> organismPool = new Queue<GameObject>();
     private Queue<GameObject> bodyPartPool = new Queue<GameObject>();
 
+    
+
     private void Start()
     {
         InitializePool();
@@ -63,35 +65,39 @@ public class OrganismObjectPool : MonoBehaviour
 
     public void ReturnOrganism(GameObject organism)
     {
-        organism.SetActive(false);
 
         organism.GetComponent<Mover>().enabled = false;
         organism.GetComponent<MovementController>().enabled = false;
 
-        foreach (GameObject child in transform)
+        foreach (GameObject child in organism.GetComponent<Organism>().bodyParts)
         {
+            child.name = "returned";
             ReturnBodyPart(child);
         }
+
+        organism.SetActive(false);
+        organism.name = "returned";
+
         organismPool.Enqueue(organism);
 
     }
     public void ReturnBodyPart(GameObject bodyPart)
     {
-        bodyPart.SetActive(false); 
 
         bodyPart.TryGetComponent<VisionSensor>(out VisionSensor visionSensor);
-        if(visionSensor != null) Destroy(visionSensor);
+        if(visionSensor) Destroy(visionSensor);
 
         bodyPart.TryGetComponent<Eater>(out Eater eater);
-        if (eater != null) Destroy(eater);
+        if (eater) Destroy(eater);
 
         bodyPart.TryGetComponent<AttackSystem>(out AttackSystem gun);
-        if (gun != null) Destroy(gun);
+        if (gun) Destroy(gun);
 
         bodyPart.TryGetComponent<Producer>(out Producer producer);
-        if (producer != null) Destroy(producer);
+        if (producer) Destroy(producer);
 
-        bodyPart.tag = null;
+        bodyPart.SetActive(false);
+        
 
         organismPool.Enqueue(bodyPart);
     }

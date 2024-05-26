@@ -8,7 +8,7 @@ public class ReproductionSystem : MonoBehaviour
     public int requiredFood;
 
     public float reproductionCost;
-    public float mutationFactor = 10f;
+    //public float mutationFactor = 10f;
 
     public int generation;
     public OrganismObjectPool organismPool;
@@ -20,7 +20,7 @@ public class ReproductionSystem : MonoBehaviour
     {
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
         collectedFood = 0;
-
+        //mutationFactor = 90f;
         if (attackSystem)
         {
             attackSystem.SafeReproduce();
@@ -34,7 +34,7 @@ public class ReproductionSystem : MonoBehaviour
     }
     public void Reproduce()
     {
-        Genom childGenom = GetMutatedGenom(GetComponent<Organism>().genom);
+        Genom childGenom = GetComponent<Organism>().genom;
         if (attackSystem) attackSystem.SafeReproduce();
 
         GameObject newOrganism = organismPool.GetOrganism();
@@ -44,13 +44,9 @@ public class ReproductionSystem : MonoBehaviour
         newOrganism.name = this.name + generation;
         newOrganism.tag = "organism";
         newOrganism.GetComponent<ReproductionSystem>().generation = generation + 1;
+        //newOrganism.GetComponent<Genom>().Mutate(mutationFactor);
 
         newOrganism.GetComponentInChildren<Organism>().SpecifyOrganism(childGenom.code);
-    }
-    public Genom GetMutatedGenom(Genom parentGenom)
-    {
-        Genom newGenom = new Genom(parentGenom, mutationFactor);
-        return newGenom;
     }
     public bool CheckIfReady()
     {

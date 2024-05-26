@@ -7,15 +7,22 @@ public class Mover : MonoBehaviour
 {
     public float moveSpeed = 2f;
     public float rotationSpeed = 300f;
+
     public float minDistanceFromCenter = 2f;
     public float maxDistanceFromCenter = 8f;
+
     public float minChangeDirectionInterval = 0.3f;
     public float maxChangeDirectionInterval = 5f;
+
     public Vector2 targetPosition;
     public Quaternion targetRotation;
     public float nextDirectionChangeTime;
     public TrailRenderer trailRenderer;
 
+    private Vector3 lastPosition;
+    private float stuckThreshold;
+    public bool isStuck = false;
+    public float stuckTime;
     private void Start()
     {
         trailRenderer = GetComponent<TrailRenderer>();
@@ -24,6 +31,9 @@ public class Mover : MonoBehaviour
         targetPosition = GetRandomPosition(transform.position, randomDirection);
         targetRotation = GetTargetRotation(targetPosition);
         nextDirectionChangeTime = Time.time + GetRandomInterval();
+
+        stuckThreshold = moveSpeed * 1.5f;
+        StartCoroutine(CheckForStuckCoroutine());
     }
     private void Update()
     {
@@ -47,6 +57,24 @@ public class Mover : MonoBehaviour
             nextDirectionChangeTime = Time.time + GetRandomInterval();
         }
 
+    }
+    public void CheckForStuck()
+    {
+        float distanceMoved = Vector3.Distance(transform.position, lastPosition);
+
+        if (distanceMoved < stuckThreshold)
+        {
+            isStuck = true;
+        }
+        lastPosition = transform.position;
+    }
+    IEnumerator CheckForStuckCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3f * Random.Range(0.7f, 1.3f));
+            CheckForStuck();
+        }
     }
     public bool IsOnTargetPosition()
     {

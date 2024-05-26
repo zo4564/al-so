@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class Organism : MonoBehaviour
 
     public FoodObjectPool foodPool;
     public OrganismObjectPool organismPool;
+    public List<GameObject> bodyParts = new List<GameObject>();
     void Start()
     {
         foodPool = FindAnyObjectByType<FoodObjectPool>();
@@ -27,7 +29,7 @@ public class Organism : MonoBehaviour
     }
     public void InitializeGenom()
     {
-        genom = new Genom(organismCode);
+        
         //Debug.Log(genom);
     }
 
@@ -35,14 +37,16 @@ public class Organism : MonoBehaviour
     {
         spriteGenerator = FindAnyObjectByType<OrganismSpriteGenerator>();
         
-        spriteGenerator.GenerateBodyObjects(genom, this.gameObject);
+        spriteGenerator.GenerateBodyObjects(genom, gameObject);
         
     }
     public void SpecifyOrganism(string genomCode)
     {
         SetCode(genomCode);
 
-        InitializeGenom();
+        genom.SetMutationFactor(10);
+        genom.GenerateGenom(organismCode);
+
         GenerateOrganism();
 
         reproductionSystem.requiredFood = genom.CalculateRequiredFood();
@@ -54,7 +58,7 @@ public class Organism : MonoBehaviour
         GameObject food = foodPool.GetFood();
         foodPool.HandleFood(food);
         food.transform.position = transform.position;
-        organismPool.ReturnOrganism(this.gameObject);
+        organismPool.ReturnOrganism(gameObject);
     }
 
 

@@ -36,5 +36,11 @@ public class MovementController : MonoBehaviour
                 targets.Remove(targets[0]);
             }
         }
+        if(mover.isStuck)
+        {
+            targets.Clear();
+            //Debug.Log("changing targets because stuck");
+            mover.isStuck = false;
+        }
     }
 }

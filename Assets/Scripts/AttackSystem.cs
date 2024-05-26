@@ -67,7 +67,9 @@ public class AttackSystem : MonoBehaviour
         food.transform.position = targetPosition;
         target.GetComponent<Organism>().Die();
         raycastingEnabled = false;
-        StartCoroutine(RaycastCooldown());
+
+        if(gameObject.activeInHierarchy)
+            StartCoroutine(RaycastCooldown());
     }
     public void SafeReproduce()
     {

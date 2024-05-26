@@ -34,8 +34,10 @@ public class OrganismSpriteGenerator : MonoBehaviour
         List<Vector2> jointPositions = new List<Vector2>();
         jointPositions.Add(body.transform.position);
 
+        Organism organism = body.GetComponent<Organism>();
         for (int i = 0; i < genom.bodyParts.Count; i++)
         {
+        
             //szuka czêsci i pozycji i sprita
             string bodyPart = genom.bodyParts[i][0].ToString();
             int jointIndex = Convert.ToInt32(genom.bodyParts[i][1].ToString());
@@ -48,6 +50,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
             GameObject cell = organismPool.GetBodyPart();
             cell.name = bodyPart;
             cell.tag = bodyPart[0].ToString();
+            organism.bodyParts.Add(cell);
 
             Vector3 newPosition = new Vector3();
             //oblicza now¹ pozycje

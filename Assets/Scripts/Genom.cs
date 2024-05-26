@@ -1,68 +1,56 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class Genom
-{
+public class Genom : MonoBehaviour
+{ 
     public string code;
     public int codeLength;
     public List<string> bodyParts;
     public List<Vector2> positions;
+    public int mutationFactor;
 
-    public Genom()
+    public void Start()
     {
-        this.codeLength = 5;
-        this.bodyParts = new List<string>();
-        this.positions = new List<Vector2>();
-        this.code = GenerateOrganismCode();
     }
 
-    public Genom(string genomCode)
+    public void GenerateGenom(string genomCode)
     {
-        this.bodyParts = new List<string>();
-        this.positions = new List<Vector2>();
-        this.code = genomCode;
+        bodyParts = new List<string>();
+        positions = new List<Vector2>();
+        code = genomCode;
 
         ParseGenomCode(genomCode);
-        this.codeLength = this.bodyParts.Count;
+        Mutate(mutationFactor);
+
+        
+
+
+        code = GenerateOrganismCode();
     }
 
-    public Genom(int codeLength, string code, List<string> bodyParts, List<Vector2> positions)
-    {
-        this.codeLength = codeLength;
-        this.code = code;
-        this.bodyParts = bodyParts;
-        this.positions = positions;
-    }
 
-    public Genom(Genom parentGenom, float mutationFactor)
+
+    public void Mutate(float mutationFactor)
     {
-        this.codeLength = parentGenom.codeLength;
-        this.bodyParts = parentGenom.bodyParts;
-        this.positions = parentGenom.positions;
-        this.code = parentGenom.code;
-        //foreach(var bodyPart in this.bodyParts)
-        //{
-        //    if(UnityEngine.Random.Range(0, 100) < mutationFactor / 2)
-        //    {
-        //        this.bodyParts.Add(GenerateRandomBodyPart());
-        //        this.positions.Add(GenerateRandomVector(3f));
-        //        Debug.Log("Mutation - add: "+ bodyPart);
-        //    }
-        //    else if(UnityEngine.Random.Range(0, 100) < mutationFactor)
-        //    {
-        //        int index = UnityEngine.Random.Range(0, this.bodyParts.Count);
-        //        if (this.bodyParts[index] != null && this.bodyParts[index] != "j") 
-        //        {
-        //            this.bodyParts.RemoveAt(index);
-        //            this.positions.RemoveAt(index);
-        //            Debug.Log("Mutation - remove: " + bodyPart);
-        //        }
-        //    }
-        //}
-        //this.codeLength = this.bodyParts.Count;
-        //this.code = GenerateOrganismCode();
+        int randomInt = UnityEngine.Random.Range(1, 100);
+        Debug.Log("random: " + randomInt + "factor: " + mutationFactor);
+        
+        if ( randomInt < mutationFactor)
+        {
+            Debug.Log("mutation!");
+            string bodyPart = GenerateRandomBodyPart();
+            Vector2 position = GenerateRandomVector(5f);
+            bodyParts.Add(bodyPart);
+            positions.Add(position);
+           
+        }
+        codeLength = bodyParts.Count;
+
     }
     public override string ToString()
     {
@@ -74,20 +62,25 @@ public class Genom
         return genomInString;
     }
 
+    public void SetMutationFactor(int factor)
+    {
+        mutationFactor = factor;
+        mutationFactor += UnityEngine.Random.Range(-2, 2);
+
+    }
     public string GenerateOrganismCode()
     {
         string generatedCode = "";
 
         for (int i = 0; i < codeLength; i++)
         {
-            string bodyPart = GenerateRandomBodyPart();
-            Vector2 position = GenerateRandomVector(2f);
+            string bodyPart = bodyParts[i];
+            // TODO: rzuca b³êdem jak jest reprodukcja
+            Vector2 position = positions[i];
             if (bodyPart.Equals('j'))
                 position *= 1.5f;
 
             generatedCode += $"#{bodyPart}({position.x:F2}, {position.y:F2})";
-            bodyParts.Add(bodyPart);
-            positions.Add(position);
         }
         return generatedCode;
     }
@@ -95,7 +88,8 @@ public class Genom
     private string GenerateRandomBodyPart()
     {
         string[] bodyParts = { "e", "m", "j", "p", "g" };
-        return bodyParts[UnityEngine.Random.Range(0, bodyParts.Length)];
+        string bodyPart = bodyParts[UnityEngine.Random.Range(0, bodyParts.Length)];
+        return bodyPart += "0";
     }
 
     private Vector2 GenerateRandomVector(float range)
@@ -111,21 +105,24 @@ public class Genom
         for (int i = 0; i < codeLength; i++)
         {
             food++;
-            //if (bodyParts[i].Equals("l"))
-            //{
-            //    food += Convert.ToInt32(positions[i].x);
-            //    food += Convert.ToInt32(positions[i].y / 100);
-            //}
-            //if (bodyParts[i].Equals("g"))
-            //{
-            //    food += 3;
-            //}
-            //if (bodyParts[i].Equals("a"))
-            //{
-            //    food += 2;
-            //}
+            if (bodyParts[i].Equals("s"))
+            {
+                food += Convert.ToInt32(positions[i].x);
+            }
+            if (bodyParts[i].Equals("g"))
+            {
+                food += 3;
+            }
+            if (bodyParts[i].Equals("a"))
+            {
+               food += 2;
+            }
+            if (bodyParts[i].Equals("p"))
+            {
+                food = 1;
+            }
         }
-        Debug.Log("required food: "+food);
+        Debug.Log("required food: " + food);
         return food;
     }
 
@@ -133,13 +130,14 @@ public class Genom
     {
         
         string[] parts = genomCode.Split(new string[] { "#" }, StringSplitOptions.RemoveEmptyEntries);
+        //Debug.Log(parts.Length);
 
         foreach (string part in parts)
         {
 
             string bodyPart = part[0].ToString();
             bodyPart += part[1].ToString();
-            Debug.Log(bodyPart);
+            //Debug.Log(bodyPart);
             bodyParts.Add(bodyPart);
 
             int startIndex = part.IndexOf('(');
@@ -159,6 +157,7 @@ public class Genom
                     
                     float x = float.Parse(coordX, CultureInfo.InvariantCulture);
                     float y = float.Parse(coordY, CultureInfo.InvariantCulture);
+                    //Debug.Log(x + ", " + y);
                     positions.Add(new Vector2(x, y));
                 }
             }
