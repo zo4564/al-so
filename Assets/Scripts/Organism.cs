@@ -48,11 +48,6 @@ public class Organism : MonoBehaviour
     }
     public void SpecifyOrganism(string genomCode)
     {
-        // to te¿ chyba tylko za pierwszym razem: SetCode(genomCode);
-
-        genom.SetMutationFactor(10);
-        // to powinno byæ tylko przy pierwszej generacji: genom.GenerateGenom(organismCode);
-        //genom.Mutate();
         GenerateOrganism();
 
         reproductionSystem.requiredFood = genom.CalculateRequiredFood();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Unity.Jobs;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,16 +24,26 @@ public class Genom : MonoBehaviour
         bodyParts = new List<string>();
         positions = new List<Vector2>();
         code = genomCode;
+        mutationFactor = 10;
 
         ParseGenomCode(genomCode);
-        Mutate();
+
+        int rand = UnityEngine.Random.Range(0, 100);
+        Debug.Log("rand: " + rand + "mf: " + mutationFactor);
+        if (rand < mutationFactor)
+        {
+            Mutate();
+        }
+        codeLength = bodyParts.Count;
     }
 
 
 
     public void Mutate()
     {
-        // TODO: poprawiæ generowanie pozycji i zrobiæ ¿eby mutacje zale¿a³y od mutationfactor
+        // TODO: poprawiæ generowanie pozycji
+
+        Debug.Log("mutatuin");
         string bodyPart = GenerateRandomBodyPart();
         Vector2 position = GenerateRandomVector(5f);
         bodyParts.Add(bodyPart);
@@ -40,7 +51,6 @@ public class Genom : MonoBehaviour
         code = UpdateGenomCode(bodyPart, position);
           
         
-        codeLength = bodyParts.Count;
 
     }
     public override string ToString()
@@ -66,7 +76,6 @@ public class Genom : MonoBehaviour
         for (int i = 0; i < codeLength; i++)
         {
             string bodyPart = bodyParts[i];
-            // TODO: rzuca b³êdem jak jest reprodukcja
             Vector2 position = positions[i];
             if (bodyPart.Equals('j'))
                 position *= 1.5f;
@@ -78,9 +87,31 @@ public class Genom : MonoBehaviour
 
     private string GenerateRandomBodyPart()
     {
-        string[] bodyParts = { "e", "m", "j", "p", "g" };
-        string bodyPart = bodyParts[UnityEngine.Random.Range(0, bodyParts.Length)];
-        return bodyPart += "0";
+        List<string> bodyPartsToGenerate = new List<string>{ "e", "m", "j", "g", "p", "l" };
+
+        int joints = 0;
+        foreach (string bodyPart in bodyParts) 
+        {
+            if (bodyPart[0].Equals('j'))
+            {
+                joints++;
+            }
+            if (bodyPart[0].Equals('l'))
+            {
+                bodyPartsToGenerate.Remove("p");
+            }
+            if (bodyPart[0].Equals('p'))
+            {
+                bodyPartsToGenerate.Remove("l");
+            }
+        }
+        int jointIndex = UnityEngine.Random.Range(0, joints + 1);
+        string newBodyPart = bodyPartsToGenerate[UnityEngine.Random.Range(0, bodyPartsToGenerate.Count)];
+
+        if (newBodyPart.Equals("j"))
+            jointIndex = joints + 1;
+
+        return newBodyPart += jointIndex;
     }
 
     private Vector2 GenerateRandomVector(float range)
@@ -113,7 +144,6 @@ public class Genom : MonoBehaviour
                 food = 1;
             }
         }
-        Debug.Log("required food: " + food);
         return food;
     }
 
