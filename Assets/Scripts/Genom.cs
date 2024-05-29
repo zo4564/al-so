@@ -30,27 +30,47 @@ public class Genom : MonoBehaviour
         ParseGenomCode(genomCode);
 
         int rand = UnityEngine.Random.Range(0, 100);
-        if (true)//(rand < mutationFactor)
+        if (rand < mutationFactor / 2)
         {
-            Mutate();
+            MutateRemove();
+            Debug.Log("mutation add");
+        }
+        else if(rand < mutationFactor) 
+        {
+            MutateAdd();
+            Debug.Log("mutation remove");
         }
         codeLength = bodyParts.Count;
     }
 
 
 
-    public void Mutate()
+    public void MutateAdd()
     {
 
-        Debug.Log("mutatuin");
         string bodyPart = GenerateRandomBodyPart();
         Vector2 position = GenerateRandomVector() * 5;
-        
+
+        if (bodyPart[0].Equals('l'))
+            position = GenerateMoverVector();
+
         bodyParts.Add(bodyPart);
         positions.Add(position);
         code = UpdateGenomCode(bodyPart, position);
           
         
+
+    }
+    public void MutateRemove()
+    {
+
+        int randomIndex = UnityEngine.Random.Range(0, bodyParts.Count);
+
+        bodyParts.RemoveAt(randomIndex);
+        positions.RemoveAt(randomIndex);
+        code = GenerateOrganismCode();
+
+
 
     }
     public override string ToString()
@@ -80,7 +100,7 @@ public class Genom : MonoBehaviour
             if (bodyPart.Equals('j'))
                 position *= 1.5f;
 
-            generatedCode += $"#{bodyPart}({position.x:F2}, {position.y:F2})";
+            generatedCode += $"#{bodyPart}({position})";
         }
         return generatedCode;
     }
@@ -122,6 +142,12 @@ public class Genom : MonoBehaviour
         float y = Mathf.Sin(angle);
         return new Vector2(x, y).normalized;
     }
+    private Vector2 GenerateMoverVector()
+    {
+        float x = UnityEngine.Random.Range(0f, 10f);
+        float y = 300f;
+        return new Vector2(x, y);
+    }
     public int CalculateRequiredFood()
     {
         int food = 0;
@@ -151,7 +177,6 @@ public class Genom : MonoBehaviour
     private string UpdateGenomCode(string bodyPart, Vector2 position)
     {
         string newCode = code;
-        Debug.Log(position);
         newCode += $"#{bodyPart}{position}";
         return newCode;
 
