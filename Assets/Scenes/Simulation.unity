@@ -159,7 +159,7 @@ MonoBehaviour:
   spawnedFood: 0
   maxFoodCapacity: 1000
   feedingTime: 5
-  feedingAmount: 10
+  feedingAmount: 100
 --- !u!4 &185955440
 Transform:
   m_ObjectHideFlags: 0
@@ -454,12 +454,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3937b96de66aef048bd01ec7e7b5f99b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  genom: {fileID: 0}
   organismCode: 
   numberOfCells: 5
   spriteGenerator: {fileID: 0}
   staminaSystem: {fileID: 0}
+  reproductionSystem: {fileID: 0}
   foodPool: {fileID: 0}
   organismPool: {fileID: 0}
+  bodyParts: []
 --- !u!4 &1165518545
 Transform:
   m_ObjectHideFlags: 0

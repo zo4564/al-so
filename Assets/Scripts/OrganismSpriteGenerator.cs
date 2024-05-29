@@ -53,6 +53,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
             organism.bodyParts.Add(cell);
 
             Vector3 newPosition = new Vector3();
+
             //oblicza now¹ pozycje
             if(bodyPart.Equals("j"))
             {

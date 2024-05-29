@@ -61,15 +61,19 @@ public class AttackSystem : MonoBehaviour
     }
     public void Attack(GameObject target)
     {
-        Vector3 targetPosition = target.transform.position;
-        GameObject food = foodPool.GetFood();
-        foodPool.HandleFood(food);
-        food.transform.position = targetPosition;
-        target.GetComponent<Organism>().Die();
-        raycastingEnabled = false;
+        if(target)
+        {
+            Vector3 targetPosition = target.transform.position;
+            GameObject food = foodPool.GetFood();
+            foodPool.HandleFood(food);
+            food.transform.position = targetPosition;
+            target.GetComponent<Organism>().Die();
+            raycastingEnabled = false;
 
-        if(gameObject.activeInHierarchy)
-            StartCoroutine(RaycastCooldown());
+            if(gameObject.activeInHierarchy)
+                StartCoroutine(RaycastCooldown());
+        }
+        
     }
     public void SafeReproduce()
     {

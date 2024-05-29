@@ -10,6 +10,7 @@ public class ReproductionSystem : MonoBehaviour
     public float reproductionCost;
     //public float mutationFactor = 10f;
 
+    public List<string> ancestralGenomes;
     public int generation;
     public OrganismObjectPool organismPool;
 
@@ -20,6 +21,7 @@ public class ReproductionSystem : MonoBehaviour
     {
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
         collectedFood = 0;
+        updateAncestralGenomes();
         //mutationFactor = 90f;
         if (attackSystem)
         {
@@ -47,6 +49,9 @@ public class ReproductionSystem : MonoBehaviour
         //newOrganism.GetComponent<Genom>().Mutate(mutationFactor);
 
         newOrganism.GetComponentInChildren<Organism>().WakeUp(childGenom.code);
+
+        
+        newOrganism.GetComponentInChildren<ReproductionSystem>().setAncestralGenomes(ancestralGenomes);
     }
     public bool CheckIfReady()
     {
@@ -55,6 +60,16 @@ public class ReproductionSystem : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public void setAncestralGenomes(List<string> genomes)
+    {
+        ancestralGenomes = genomes;
+
+    }
+    public void updateAncestralGenomes()
+    {
+        ancestralGenomes ??= new List<string>();
+        ancestralGenomes.Add(GetComponent<Genom>().code);
     }
 
 }

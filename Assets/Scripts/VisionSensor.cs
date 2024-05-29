@@ -42,7 +42,7 @@ public class VisionSensor : MonoBehaviour
 
                 Vector3 startPosition = transform.position;
 
-                Debug.DrawRay(startPosition, direction * detectionRange, Color.yellow);
+                //Debug.DrawRay(startPosition, direction * detectionRange, Color.yellow);
 
                 RaycastHit2D hit = Physics2D.Raycast(startPosition, direction, detectionRange, detectionLayer);
 

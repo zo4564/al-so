@@ -8,7 +8,6 @@ using UnityEngine;
 public class Organism : MonoBehaviour
 {
     public Genom genom;
-    public string organismCode; 
     public int numberOfCells;
     public OrganismSpriteGenerator spriteGenerator;
     public StaminaSystem staminaSystem;
@@ -23,10 +22,6 @@ public class Organism : MonoBehaviour
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
     }
     
-    public void SetCode(string genomCode)
-    {
-        organismCode = genomCode;
-    }
     public void InitializeGenom()
     {
         
@@ -42,7 +37,7 @@ public class Organism : MonoBehaviour
     }
     public void WakeUp(string genomCode)
     {
-        SetCode(genomCode);
+        
         genom.GenerateGenom(genomCode);
         SpecifyOrganism(genomCode);
     }

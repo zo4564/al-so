@@ -8,7 +8,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Genom : MonoBehaviour
-{ 
+{
+    
     public string code;
     public int codeLength;
     public List<string> bodyParts;
@@ -29,8 +30,7 @@ public class Genom : MonoBehaviour
         ParseGenomCode(genomCode);
 
         int rand = UnityEngine.Random.Range(0, 100);
-        Debug.Log("rand: " + rand + "mf: " + mutationFactor);
-        if (rand < mutationFactor)
+        if (true)//(rand < mutationFactor)
         {
             Mutate();
         }
@@ -41,11 +41,11 @@ public class Genom : MonoBehaviour
 
     public void Mutate()
     {
-        // TODO: poprawiæ generowanie pozycji
 
         Debug.Log("mutatuin");
         string bodyPart = GenerateRandomBodyPart();
-        Vector2 position = GenerateRandomVector(5f);
+        Vector2 position = GenerateRandomVector() * 5;
+        
         bodyParts.Add(bodyPart);
         positions.Add(position);
         code = UpdateGenomCode(bodyPart, position);
@@ -99,6 +99,7 @@ public class Genom : MonoBehaviour
             if (bodyPart[0].Equals('l'))
             {
                 bodyPartsToGenerate.Remove("p");
+                bodyPartsToGenerate.Remove("l");
             }
             if (bodyPart[0].Equals('p'))
             {
@@ -114,12 +115,12 @@ public class Genom : MonoBehaviour
         return newBodyPart += jointIndex;
     }
 
-    private Vector2 GenerateRandomVector(float range)
+    private Vector2 GenerateRandomVector()
     {
         float angle = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        float x = range * Mathf.Cos(angle);
-        float y = range * Mathf.Sin(angle);
-        return new Vector2(x, y);
+        float x = Mathf.Cos(angle);
+        float y = Mathf.Sin(angle);
+        return new Vector2(x, y).normalized;
     }
     public int CalculateRequiredFood()
     {
@@ -150,7 +151,8 @@ public class Genom : MonoBehaviour
     private string UpdateGenomCode(string bodyPart, Vector2 position)
     {
         string newCode = code;
-        newCode += $"#{bodyPart}({position.x:F2}, {position.y:F2})";
+        Debug.Log(position);
+        newCode += $"#{bodyPart}{position}";
         return newCode;
 
     }

@@ -97,6 +97,7 @@ public class OrganismObjectPool : MonoBehaviour
         if (producer) Destroy(producer);
 
         bodyPart.SetActive(false);
+        bodyPart.transform.position = Vector3.zero;
         
 
         organismPool.Enqueue(bodyPart);
