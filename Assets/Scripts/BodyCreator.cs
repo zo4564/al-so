@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     public Vector2 bodyCenter;
     public float radius = 50f;
 
+    public Genom speciesGenom;
+
     public int joints;
     public bool moving;
     public bool defender;
@@ -32,6 +35,9 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         speciesManager = FindObjectOfType<SpeciesManager>();
         selector = FindObjectOfType<BodyElementSelector>();
         bodyCenter = bodyCreatorRectTransform.position;
+
+        speciesGenom = FindObjectOfType<Genom>();
+
 
         defender = false;
         moving = false;
@@ -71,7 +77,11 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
             //zaktualizuj genom
             Vector2 realPosition = (direction.normalized * radius) / (10 * parentCanvas.localScale.x);
-            AddToGenom(bodyPart, realPosition, jointIndex);
+
+            speciesGenom.bodyParts.Add(bodyPart + jointIndex);
+            speciesGenom.positions.Add(realPosition);
+
+            //AddToGenom(bodyPart, realPosition, jointIndex);
         }
     }
     
@@ -155,12 +165,19 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
         if (moving)
         {
-            AddToGenom("l", Vector2.zero, 0);
-            AddToGenom("s", new Vector2(speed, 300f), 0);
+            //AddToGenom("l", Vector2.zero, 0);
+            //AddToGenom("s", new Vector2(speed, 300f), 0);
+            speciesGenom.bodyParts.Add("l0");
+            speciesGenom.positions.Add(new Vector2(speed, 300f));
         }
-        if (defender) AddToGenom("d", Vector2.zero, 0);
+        if (defender) //AddToGenom("d", Vector2.zero, 0);
+        {
+            speciesGenom.bodyParts.Add("a0");
+            speciesGenom.positions.Add(Vector2.zero);
+        }
 
 
+        genomCode = speciesGenom.GenerateOrganismCode();
         Debug.Log(genomCode);
         speciesManager.AddSpecies(speciesName, genomCode, count, moving, defender, speed);
         ResetOrganism();
@@ -198,6 +215,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
         //wyczyœæ genom
         genomCode = null;
+        speciesGenom.ResetGenom();
 
         //resetuj nazwê i liczbê i liczbe jointów
         FindObjectOfType<OrganismCounter>().ResetCount();

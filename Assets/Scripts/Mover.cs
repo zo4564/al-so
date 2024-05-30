@@ -26,7 +26,9 @@ public class Mover : MonoBehaviour
     private void Start()
     {
         trailRenderer = GetComponent<TrailRenderer>();
-        trailRenderer.enabled = true;
+        trailRenderer.enabled = false;
+        StartCoroutine(TrailRendererStartCooldown());
+
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
         targetPosition = GetRandomPosition(transform.position, randomDirection);
         targetRotation = GetTargetRotation(targetPosition);
@@ -34,6 +36,12 @@ public class Mover : MonoBehaviour
 
         stuckThreshold = moveSpeed * 1.5f;
         StartCoroutine(CheckForStuckCoroutine());
+    }
+    IEnumerator TrailRendererStartCooldown()
+    {
+        yield return new WaitForSeconds(2);
+
+        trailRenderer.enabled = true;
     }
     private void Update()
     {
