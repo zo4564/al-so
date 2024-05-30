@@ -15,36 +15,28 @@ public class Organism : MonoBehaviour
 
     public FoodObjectPool foodPool;
     public OrganismObjectPool organismPool;
+    public BodyPartObjectPool bodyPartPool;
     public List<GameObject> bodyParts = new List<GameObject>();
-    void Start()
+    void Awake()
     {
         foodPool = FindAnyObjectByType<FoodObjectPool>();
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
+        bodyPartPool = FindAnyObjectByType<BodyPartObjectPool>();
+        spriteGenerator = FindAnyObjectByType<OrganismSpriteGenerator>();
     }
     
-    public void InitializeGenom()
-    {
-        
-        //Debug.Log(genom);
-    }
 
-    public void GenerateOrganism()
-    {
-        spriteGenerator = FindAnyObjectByType<OrganismSpriteGenerator>();
-        
-        spriteGenerator.GenerateBodyObjects(genom, gameObject);
-        
-    }
     public void WakeUp(string genomCode)
     {
-        
+        Debug.Log("parsing code: " + genomCode);
         genom.GenerateGenom(genomCode);
         SpecifyOrganism(genomCode);
+        staminaSystem.Run(genom.CalculateEnergyCost());
+
     }
     public void SpecifyOrganism(string genomCode)
     {
-        GenerateOrganism();
-
+        spriteGenerator.GenerateBodyObjects(genom, gameObject);
         reproductionSystem.requiredFood = genom.CalculateRequiredFood();
         
     }
@@ -54,6 +46,14 @@ public class Organism : MonoBehaviour
         GameObject food = foodPool.GetFood();
         foodPool.HandleFood(food);
         food.transform.position = transform.position;
+
+        foreach (GameObject child in bodyParts)
+        {
+            bodyPartPool.ReturnBodyPart(child);
+        }
+
+        bodyParts.Clear();
+        genom.ResetGenom();
         organismPool.ReturnOrganism(gameObject);
     }
 

@@ -9,11 +9,10 @@ public class StaminaSystem : MonoBehaviour
 
     public float maxStamina = 100f;
     public float currentStamina;
-    public float staminaRegenRate = 5f;
     // Start is called before the first frame update
-    void Start()
+    public void Run(float energyCostForOrganism)
     {
-        energyCost = 1;
+        energyCost = energyCostForOrganism;
         currentStamina = maxStamina;
         StartCoroutine(UseStamina());
     }
@@ -27,7 +26,7 @@ public class StaminaSystem : MonoBehaviour
     {
         if (currentStamina < maxStamina)
         {
-            currentStamina += 10;
+            currentStamina += 25;
             currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
         }
     }

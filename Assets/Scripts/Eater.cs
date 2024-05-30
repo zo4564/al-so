@@ -59,7 +59,7 @@ public class Eater : MonoBehaviour
     }
     public void Eat()
     {
-        if (staminaSystem.currentStamina > 75)
+        if (staminaSystem.currentStamina > 40)
             reproductionSystem.collectedFood++;
         else staminaSystem.RegenerateStamina();
 

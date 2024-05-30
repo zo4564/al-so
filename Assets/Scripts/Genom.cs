@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Unity.Jobs;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,6 +20,13 @@ public class Genom : MonoBehaviour
     public void Start()
     {
     }
+    public void ResetGenom()
+    {
+        code = null;
+        codeLength = 0;
+        bodyParts.Clear();
+        positions.Clear();
+    }
 
     public void GenerateGenom(string genomCode)
     {
@@ -27,6 +35,7 @@ public class Genom : MonoBehaviour
         code = genomCode;
         mutationFactor = 10;
 
+        
         ParseGenomCode(genomCode);
 
         int rand = UnityEngine.Random.Range(0, 100);
@@ -93,14 +102,14 @@ public class Genom : MonoBehaviour
     {
         string generatedCode = "";
 
-        for (int i = 0; i < codeLength; i++)
+        for (int i = 0; i < bodyParts.Count; i++)
         {
             string bodyPart = bodyParts[i];
             Vector2 position = positions[i];
             if (bodyPart.Equals('j'))
                 position *= 1.5f;
 
-            generatedCode += $"#{bodyPart}({position})";
+            generatedCode += $"#{bodyPart}{position}";
         }
         return generatedCode;
     }
@@ -110,7 +119,9 @@ public class Genom : MonoBehaviour
         List<string> bodyPartsToGenerate = new List<string>{ "e", "m", "j", "g", "p", "l" };
 
         int joints = 0;
-        foreach (string bodyPart in bodyParts) 
+        bool canMove = false;
+        
+            foreach (string bodyPart in bodyParts) 
         {
             if (bodyPart[0].Equals('j'))
             {
@@ -118,6 +129,7 @@ public class Genom : MonoBehaviour
             }
             if (bodyPart[0].Equals('l'))
             {
+                canMove = true;
                 bodyPartsToGenerate.Remove("p");
                 bodyPartsToGenerate.Remove("l");
             }
@@ -126,6 +138,17 @@ public class Genom : MonoBehaviour
                 bodyPartsToGenerate.Remove("l");
             }
         }
+
+            //TODO: testuj czy to dzia³a
+        if (!canMove && !bodyPartsToGenerate.Contains("l"))
+        {
+            bodyPartsToGenerate.Add("l");
+        }
+        if (!canMove && !bodyPartsToGenerate.Contains("p"))
+        {
+            bodyPartsToGenerate.Add("p");
+        }
+
         int jointIndex = UnityEngine.Random.Range(0, joints + 1);
         string newBodyPart = bodyPartsToGenerate[UnityEngine.Random.Range(0, bodyPartsToGenerate.Count)];
 
@@ -154,9 +177,9 @@ public class Genom : MonoBehaviour
         for (int i = 0; i < codeLength; i++)
         {
             food++;
-            if (bodyParts[i].Equals("s"))
+            if (bodyParts[i].Equals("l"))
             {
-                food += Convert.ToInt32(positions[i].x);
+                food += Convert.ToInt32(positions[i].x );
             }
             if (bodyParts[i].Equals("g"))
             {
@@ -171,7 +194,35 @@ public class Genom : MonoBehaviour
                 food = 1;
             }
         }
+
+        if (food < 3)
+            food = 3;
         return food;
+    }
+    public float CalculateEnergyCost()
+    {
+        float energyCost = bodyParts.Count;
+        for (int i = 0; i < bodyParts.Count; i++)
+        {
+            
+            if (bodyParts[i].Equals("l"))
+            {
+                energyCost += Convert.ToInt32(positions[i].x);
+            }
+            if (bodyParts[i].Equals("g"))
+            {
+                energyCost += 1;
+            }
+            if (bodyParts[i].Equals("a"))
+            {
+                energyCost += 1;
+            }
+            if (bodyParts[i].Equals("p"))
+            {
+                energyCost /= 2f;
+            }
+        }
+        return energyCost;
     }
 
     private string UpdateGenomCode(string bodyPart, Vector2 position)
@@ -207,7 +258,7 @@ public class Genom : MonoBehaviour
                 
                 string coordX = coordinates[0].Trim(); 
                 string coordY = coordinates[1].Trim();
-                   
+
                 float x = float.Parse(coordX, CultureInfo.InvariantCulture);
                 float y = float.Parse(coordY, CultureInfo.InvariantCulture);
                 positions.Add(new Vector2(x, y));

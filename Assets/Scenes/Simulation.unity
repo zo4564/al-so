@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodPrefab: {fileID: 3544695828122048642, guid: 9e83d121467c91041bcb4aeb376bd8e5, type: 3}
-  poolSize: 30
+  poolSize: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -294,10 +294,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7fa67eb7119d5d4caf696e56e74f57d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 25
   zoomSpeed: 5
   minZoom: 1
   maxZoom: 10
+--- !u!1 &615195863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615195864}
+  m_Layer: 0
+  m_Name: BodyPartHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &615195864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615195863}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1106898401
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   organismPool: {fileID: 0}
+  bodyPartPool: {fileID: 0}
   bodyPartSprites:
   - bodyPartType: e
     sprite: {fileID: 21300000, guid: be31c66b4e310b240acc7f23d3fcdc2f, type: 3}
@@ -369,6 +401,7 @@ GameObject:
   - component: {fileID: 1143811457}
   - component: {fileID: 1143811456}
   - component: {fileID: 1143811458}
+  - component: {fileID: 1143811459}
   m_Layer: 0
   m_Name: OrganismGenerator
   m_TagString: Untagged
@@ -389,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfObjects: 500
-  maxDistanceFromCenter: 40
+  maxDistanceFromCenter: 100
   speciesManager: {fileID: 0}
   speciesManagerPrefab: {fileID: 1893667539143496674, guid: 0012ba2eb5f9dd0459157297cf5ad319, type: 3}
   organismPrefab: {fileID: 7578097188537875228, guid: 2aad9691489a3f54099d0d22ab47c82e, type: 3}
@@ -422,8 +455,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   organismPrefab: {fileID: 7578097188537875228, guid: 2aad9691489a3f54099d0d22ab47c82e, type: 3}
+  poolSize: 5
+  bodyPartPool: {fileID: 1143811459}
+--- !u!114 &1143811459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143811455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8fff3aa121c1740beffa7cd95c3550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   bodyPartPrefab: {fileID: 6279214030052332146, guid: 7e9b93fb2c0ff8142942482de26f7e38, type: 3}
-  poolSize: 100
+  poolSize: 10
+  bodyPartHolder: {fileID: 615195863}
 --- !u!1 &1165518543
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,13 +503,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   genom: {fileID: 0}
-  organismCode: 
   numberOfCells: 5
   spriteGenerator: {fileID: 0}
   staminaSystem: {fileID: 0}
   reproductionSystem: {fileID: 0}
   foodPool: {fileID: 0}
   organismPool: {fileID: 0}
+  bodyPartPool: {fileID: 0}
   bodyParts: []
 --- !u!4 &1165518545
 Transform:
@@ -598,6 +646,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5426152108095263404, guid: e61162c1737cab04abdf05bc25b29b38, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426152108095263404, guid: e61162c1737cab04abdf05bc25b29b38, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426152108095263404, guid: e61162c1737cab04abdf05bc25b29b38, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426152108095263404, guid: e61162c1737cab04abdf05bc25b29b38, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -657,3 +717,4 @@ SceneRoots:
   - {fileID: 185955440}
   - {fileID: 1143811457}
   - {fileID: 2112968523}
+  - {fileID: 615195864}

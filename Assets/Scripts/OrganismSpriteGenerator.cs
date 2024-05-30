@@ -17,11 +17,13 @@ public class BodyPartSpritePair
 public class OrganismSpriteGenerator : MonoBehaviour
 {
     public OrganismObjectPool organismPool;
+    public BodyPartObjectPool bodyPartPool;
     public List<BodyPartSpritePair> bodyPartSprites;
 
     public void Start()
     {
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
+        bodyPartPool = FindAnyObjectByType<BodyPartObjectPool>();
     }
     //zrobi czêœci cia³a jako nowe obiekty
     public void GenerateBodyObjects(Genom genom, GameObject body)
@@ -47,7 +49,7 @@ public class OrganismSpriteGenerator : MonoBehaviour
             position /= 2f;
 
             //tworzy obiekt
-            GameObject cell = organismPool.GetBodyPart();
+            GameObject cell = bodyPartPool.GetBodyPart();
             cell.name = bodyPart;
             cell.tag = bodyPart[0].ToString();
             organism.bodyParts.Add(cell);
@@ -71,7 +73,8 @@ public class OrganismSpriteGenerator : MonoBehaviour
             cell.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
             //ustawienie sprita i odpowiednie warstwy
-            SpriteRenderer renderer = cell.AddComponent<SpriteRenderer>();
+            SpriteRenderer renderer = cell.GetComponent<SpriteRenderer>();
+
             renderer.sprite = sprite;
             renderer.sortingLayerID = parentSortingLayer;
             renderer.sortingOrder = parentOrderInLayer + 1;

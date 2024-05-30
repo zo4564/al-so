@@ -21,7 +21,7 @@ public class ReproductionSystem : MonoBehaviour
     {
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
         collectedFood = 0;
-        updateAncestralGenomes();
+        //updateAncestralGenomes();
         //mutationFactor = 90f;
         if (attackSystem)
         {
@@ -36,6 +36,7 @@ public class ReproductionSystem : MonoBehaviour
     }
     public void Reproduce()
     {
+        
         Genom childGenom = GetComponent<Organism>().genom;
         if (attackSystem) attackSystem.SafeReproduce();
 
@@ -47,6 +48,7 @@ public class ReproductionSystem : MonoBehaviour
         newOrganism.tag = "organism";
         newOrganism.GetComponent<ReproductionSystem>().generation = generation + 1;
         //newOrganism.GetComponent<Genom>().Mutate(mutationFactor);
+
 
         newOrganism.GetComponentInChildren<Organism>().WakeUp(childGenom.code);
 
@@ -66,6 +68,7 @@ public class ReproductionSystem : MonoBehaviour
         ancestralGenomes = genomes;
 
     }
+    //TODO:
     public void updateAncestralGenomes()
     {
         ancestralGenomes ??= new List<string>();
