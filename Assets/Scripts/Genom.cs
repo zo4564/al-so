@@ -116,28 +116,32 @@ public class Genom : MonoBehaviour
 
     private string GenerateRandomBodyPart()
     {
-        List<string> bodyPartsToGenerate = new List<string>{ "e", "m", "j", "g", "p", "l" };
+        List<string> bodyPartsToGenerate = new List<string>{ "e", "m", "j", "g", "p", "l", "a" };
 
         int joints = 0;
         bool canMove = false;
         
             foreach (string bodyPart in bodyParts) 
-        {
-            if (bodyPart[0].Equals('j'))
             {
-                joints++;
+                if (bodyPart[0].Equals('j'))
+                {
+                    joints++;
+                }
+            if (bodyPart[0].Equals('a'))
+            {
+                bodyPartsToGenerate.Remove("a");
             }
             if (bodyPart[0].Equals('l'))
-            {
-                canMove = true;
-                bodyPartsToGenerate.Remove("p");
-                bodyPartsToGenerate.Remove("l");
+                {
+                    canMove = true;
+                    bodyPartsToGenerate.Remove("p");
+                    bodyPartsToGenerate.Remove("l");
+                }
+                if (bodyPart[0].Equals('p'))
+                {
+                    bodyPartsToGenerate.Remove("l");
+                }
             }
-            if (bodyPart[0].Equals('p'))
-            {
-                bodyPartsToGenerate.Remove("l");
-            }
-        }
 
             //TODO: testuj czy to dzia³a
         if (!canMove && !bodyPartsToGenerate.Contains("l"))
@@ -179,11 +183,11 @@ public class Genom : MonoBehaviour
             food++;
             if (bodyParts[i].Equals("l"))
             {
-                food += Convert.ToInt32(positions[i].x );
+                food += Convert.ToInt32(positions[i].x / 2);
             }
             if (bodyParts[i].Equals("g"))
             {
-                food += 3;
+                food += 2;
             }
             if (bodyParts[i].Equals("a"))
             {

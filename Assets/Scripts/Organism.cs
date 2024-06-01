@@ -40,7 +40,9 @@ public class Organism : MonoBehaviour
         reproductionSystem.requiredFood = genom.CalculateRequiredFood();
         
     }
+
     
+
     public void Die()
     {
         GameObject food = foodPool.GetFood();
