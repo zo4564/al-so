@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //mover odpowiada za poruszanie siê organizmu
@@ -25,10 +26,14 @@ public class Mover : MonoBehaviour
     public float stuckTime;
     private void Start()
     {
+
+    }
+    private void OnEnable()
+    {
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.enabled = false;
-        StartCoroutine(TrailRendererStartCooldown());
-
+        TrailDelay();
+        
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
         targetPosition = GetRandomPosition(transform.position, randomDirection);
         targetRotation = GetTargetRotation(targetPosition);
@@ -65,6 +70,10 @@ public class Mover : MonoBehaviour
             nextDirectionChangeTime = Time.time + GetRandomInterval();
         }
 
+    }
+    public void TrailDelay()
+    {
+        StartCoroutine(TrailRendererStartCooldown());
     }
     public void CheckForStuck()
     {

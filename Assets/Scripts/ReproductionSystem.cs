@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ReproductionSystem : MonoBehaviour
@@ -12,6 +13,8 @@ public class ReproductionSystem : MonoBehaviour
 
     public List<string> ancestralGenomes;
     public int generation;
+    public string strain;
+
     public OrganismObjectPool organismPool;
 
     public AttackSystem attackSystem;
@@ -20,15 +23,15 @@ public class ReproductionSystem : MonoBehaviour
     void Start()
     {
         organismPool = FindAnyObjectByType<OrganismObjectPool>();
-        collectedFood = 0;
-        //mutationFactor = 90f;
 
-        UpdateAncestralGenomes(GetComponent<Organism>().genom.code);
+        collectedFood = 0;
+
         if (attackSystem)
         {
             attackSystem.SafeReproduce();
         }
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -42,18 +45,24 @@ public class ReproductionSystem : MonoBehaviour
         if (attackSystem) attackSystem.SafeReproduce();
 
         GameObject newOrganism = organismPool.GetOrganism();
+        
+        newOrganism.GetComponentInChildren<Organism>().WakeUp(childGenom.code);
+
+        ReproductionSystem babyReproductionSystem = newOrganism.GetComponentInChildren<ReproductionSystem>();
+        babyReproductionSystem.ancestralGenomes = new List<string>(ancestralGenomes);
+        babyReproductionSystem.UpdateAncestralGenomes(childGenom.code);
+        babyReproductionSystem.UpdateStrain(strain);
+
+        babyReproductionSystem.generation = generation + 1;
 
         newOrganism.transform.position = transform.position + Vector3.up;
         newOrganism.layer = 3;
-        newOrganism.name = this.name + generation;
+        newOrganism.name = babyReproductionSystem.FindName(name);
         newOrganism.tag = "organism";
-        newOrganism.GetComponent<ReproductionSystem>().generation = generation + 1;
+
         //newOrganism.GetComponent<Genom>().Mutate(mutationFactor);
 
 
-        newOrganism.GetComponentInChildren<Organism>().WakeUp(childGenom.code);
-
-        newOrganism.GetComponentInChildren<ReproductionSystem>().ancestralGenomes = new List<string>(ancestralGenomes);
     }
     public bool CheckIfReady()
     {
@@ -63,12 +72,69 @@ public class ReproductionSystem : MonoBehaviour
         }
         return false;
     }
+    public void UpdateStrain(string parentStrain)
+    {
+        if(ancestralGenomes.Count >= 2)
+        {
+            Debug.Log(ancestralGenomes[^1] + "comparing to: " + ancestralGenomes[ancestralGenomes.Count - 2]);
+            if (ancestralGenomes[^1].Equals(ancestralGenomes[ancestralGenomes.Count - 2]))
+            {
+                strain = parentStrain;
+            }
+            else
+            {
+                strain = NewStrain();
+            }
+        }
+
+    }
+    
     public void UpdateAncestralGenomes(string genom)
     {
         ancestralGenomes ??= new List<string>();
-
         ancestralGenomes.Add(genom);
     }
-    
+
+    public string NewStrain()
+    {
+        string strains1 = "qwertyuiopasdfghjklzxcvbnm";
+        string strains2 = "qwertyuiopasdfghjklzxcvbnm";
+        int randomLetter1 = Random.Range(0, 26);
+        int randomLetter2 = Random.Range(0, 26);
+        generation = 0;
+
+        return strains1[randomLetter1].ToString() + strains2[randomLetter2].ToString();
+    }
+    public string FindName(string parentName)
+    {
+        string newName = parentName.Split("-")[0];
+        newName += "-" + strain.ToString() + "-" + generation;
+        return newName;
+
+    }
+    public void SetFirstGeneration(string speciesName, string speciesGenomCode)
+    {
+
+        collectedFood = 0;
+        strain = "a";
+        generation = 0;
+
+        string genomCode = GetComponent<Organism>().genom.code;
+        Debug.Log(genomCode + "comparing: " + speciesGenomCode);
+        if(!genomCode.Equals(speciesGenomCode))
+        {
+            strain = NewStrain();
+        }
+        name = speciesName + "-" + strain.ToString() + "-" + generation;
+
+
+    }
+    public void Reset()
+    {
+        ancestralGenomes = new List<string>();
+        generation = 0;
+        strain = "a";
+        collectedFood = 0;
+    }
 
 }

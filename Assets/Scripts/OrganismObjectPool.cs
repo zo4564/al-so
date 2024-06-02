@@ -8,7 +8,6 @@ public class OrganismObjectPool : MonoBehaviour
     public int poolSize;
     private Queue<GameObject> organismPool = new Queue<GameObject>();
 
-    public BodyPartObjectPool bodyPartPool;
 
     
 
@@ -48,11 +47,12 @@ public class OrganismObjectPool : MonoBehaviour
 
         organism.GetComponent<Mover>().enabled = false;
         organism.GetComponent<MovementController>().enabled = false;
+        organism.GetComponent<ReproductionSystem>().Reset();
 
-        
 
         organism.SetActive(false);
         organism.name = "returned";
+        organism.transform.rotation = Quaternion.identity;
 
 
         organismPool.Enqueue(organism);

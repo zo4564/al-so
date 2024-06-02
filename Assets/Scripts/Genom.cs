@@ -62,6 +62,8 @@ public class Genom : MonoBehaviour
 
         if (bodyPart[0].Equals('l'))
             position = GenerateMoverVector();
+        if (bodyPart[0].Equals('a'))
+            position = Vector2.zero;
 
         bodyParts.Add(bodyPart);
         positions.Add(position);

@@ -42,14 +42,15 @@ public class SpeciesSpawner : ObjectSpawner
                 GameObject newOrganism = organismPool.GetOrganism();
                 newOrganism.transform.position = GetRandomPosition();
                 newOrganism.layer = 3;
-                newOrganism.name = speciesName;
                 newOrganism.tag = "organism";
+
 
                 Organism organism = newOrganism.GetComponentInChildren<Organism>();
                 //organism.SetCode(speciesGenomCode);
                 //organism.genom.GenerateGenom(speciesGenomCode);
                 //organism.SpecifyOrganism(speciesGenomCode);
                 organism.WakeUp(speciesGenomCode);
+                newOrganism.GetComponent<ReproductionSystem>().SetFirstGeneration(speciesName, speciesGenomCode);
                 
             }
         }

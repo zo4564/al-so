@@ -28,10 +28,11 @@ public class Organism : MonoBehaviour
 
     public void WakeUp(string genomCode)
     {
-        Debug.Log("parsing code: " + genomCode);
         genom.GenerateGenom(genomCode);
         SpecifyOrganism(genomCode);
         staminaSystem.Run(genom.CalculateEnergyCost());
+        reproductionSystem.UpdateAncestralGenomes(genomCode);
+        GetComponent<Mover>().TrailDelay();
 
     }
     public void SpecifyOrganism(string genomCode)
@@ -56,7 +57,7 @@ public class Organism : MonoBehaviour
 
         bodyParts.Clear();
         genom.ResetGenom();
-        organismPool.ReturnOrganism(gameObject);
+        organismPool.ReturnOrganism(this.gameObject);
     }
 
 

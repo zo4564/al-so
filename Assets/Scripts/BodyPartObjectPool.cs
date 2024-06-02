@@ -44,7 +44,7 @@ public class BodyPartObjectPool : MonoBehaviour
     public void ReturnBodyPart(GameObject bodyPart)
     {
 
-        name = "returned";
+        bodyPart.name = "returned";
         bodyPart.transform.SetParent(bodyPartHolder.transform);
 
         bodyPart.TryGetComponent<VisionSensor>(out VisionSensor visionSensor);

@@ -7,13 +7,12 @@ public class VisionSensor : MonoBehaviour
     public float cooldownTime = 0.3f;
     private bool raycastingEnabled = true;
 
-    public float detectionRange = 10f;
+    public float detectionRange = 30f;
     public LayerMask detectionLayer = 3; 
     public int numRays = 4; 
     public float minAngle = -25f; 
     public float maxAngle = 25f;
 
-    private Vector3 previousTarget = Vector3.zero;
 
     public MovementController controller;
     private void Start()
@@ -42,7 +41,7 @@ public class VisionSensor : MonoBehaviour
 
                 Vector3 startPosition = transform.position;
 
-                //Debug.DrawRay(startPosition, direction * detectionRange, Color.yellow);
+                Debug.DrawRay(startPosition, direction * detectionRange, Color.yellow);
 
                 RaycastHit2D hit = Physics2D.Raycast(startPosition, direction, detectionRange, detectionLayer);
 
@@ -51,7 +50,6 @@ public class VisionSensor : MonoBehaviour
                     if (!controller.targets.Contains(hit.transform.position))
                     {
                         controller.targets.Add(hit.transform.position);
-                        previousTarget = hit.transform.position;
                     }
                     
                     raycastingEnabled = false;
