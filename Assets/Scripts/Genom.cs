@@ -207,27 +207,27 @@ public class Genom : MonoBehaviour
     }
     public float CalculateEnergyCost()
     {
-        float energyCost = bodyParts.Count;
-        for (int i = 0; i < bodyParts.Count; i++)
-        {
+        float energyCost = bodyParts.Count / 2;
+        //for (int i = 0; i < bodyParts.Count; i++)
+        //{
             
-            if (bodyParts[i].Equals("l"))
-            {
-                energyCost += Convert.ToInt32(positions[i].x);
-            }
-            if (bodyParts[i].Equals("g"))
-            {
-                energyCost += 1;
-            }
-            if (bodyParts[i].Equals("a"))
-            {
-                energyCost += 1;
-            }
-            if (bodyParts[i].Equals("p"))
-            {
-                energyCost /= 2f;
-            }
-        }
+        //    if (bodyParts[i].Equals("l"))
+        //    {
+        //        energyCost += Convert.ToInt32(positions[i].x) / 2;
+        //    }
+        //    if (bodyParts[i].Equals("g"))
+        //    {
+        //        energyCost += 0.5f;
+        //    }
+        //    if (bodyParts[i].Equals("a"))
+        //    {
+        //        energyCost += 0.5f;
+        //    }
+        //    if (bodyParts[i].Equals("p"))
+        //    {
+        //        energyCost /= 2f;
+        //    }
+        //}
         return energyCost;
     }
 

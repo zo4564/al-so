@@ -97,13 +97,16 @@ public class ReproductionSystem : MonoBehaviour
 
     public string NewStrain()
     {
-        string strains1 = "qwertyuiopasdfghjklzxcvbnm";
-        string strains2 = "qwertyuiopasdfghjklzxcvbnm";
-        int randomLetter1 = Random.Range(0, 26);
-        int randomLetter2 = Random.Range(0, 26);
-        generation = 0;
+        string strain = "";
+        for(int i = 0; i < 2; i++)
+        {
+            string s1 = "qwertyuiopasdfghjklzxcvbnm";
+            int randomLetter1 = Random.Range(0, 26);
+            strain += s1[randomLetter1].ToString();
 
-        return strains1[randomLetter1].ToString() + strains2[randomLetter2].ToString();
+        }
+        generation = 0;
+        return strain;
     }
     public string FindName(string parentName)
     {
@@ -116,7 +119,7 @@ public class ReproductionSystem : MonoBehaviour
     {
 
         collectedFood = 0;
-        strain = "a";
+        strain = "al";
         generation = 0;
 
         string genomCode = GetComponent<Organism>().genom.code;
@@ -133,7 +136,7 @@ public class ReproductionSystem : MonoBehaviour
     {
         ancestralGenomes = new List<string>();
         generation = 0;
-        strain = "a";
+        strain = "al";
         collectedFood = 0;
     }
 
