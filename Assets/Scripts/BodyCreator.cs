@@ -18,6 +18,8 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
     public Toggle moverToggle;
     public Slider moverSlider;
 
+
+
     public Button producerButton;
 
     public Vector2 bodyCenter;
@@ -178,7 +180,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
 
 
         genomCode = speciesGenom.GenerateOrganismCode();
-        Debug.Log(genomCode);
+        //Debug.Log(genomCode);
         speciesManager.AddSpecies(speciesName, genomCode, count, moving, defender, speed);
         ResetOrganism();
       
