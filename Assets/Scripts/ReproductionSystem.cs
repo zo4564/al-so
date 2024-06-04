@@ -76,7 +76,7 @@ public class ReproductionSystem : MonoBehaviour
     {
         if(ancestralGenomes.Count >= 2)
         {
-            Debug.Log(ancestralGenomes[^1] + "comparing to: " + ancestralGenomes[ancestralGenomes.Count - 2]);
+            //Debug.Log(ancestralGenomes[^1] + "comparing to: " + ancestralGenomes[ancestralGenomes.Count - 2]);
             if (ancestralGenomes[^1].Equals(ancestralGenomes[ancestralGenomes.Count - 2]))
             {
                 strain = parentStrain;
@@ -111,7 +111,7 @@ public class ReproductionSystem : MonoBehaviour
     public string FindName(string parentName)
     {
         string newName = parentName.Split("-")[0];
-        newName += "-" + strain.ToString() + "-" + generation;
+        newName += "-" + strain.ToString();
         return newName;
 
     }
@@ -123,12 +123,12 @@ public class ReproductionSystem : MonoBehaviour
         generation = 0;
 
         string genomCode = GetComponent<Organism>().genom.code;
-        Debug.Log(genomCode + "comparing: " + speciesGenomCode);
+        //Debug.Log(genomCode + "comparing: " + speciesGenomCode);
         if(!genomCode.Equals(speciesGenomCode))
         {
             strain = NewStrain();
         }
-        name = speciesName + "-" + strain.ToString() + "-" + generation;
+        name = speciesName + "-" + strain.ToString();
 
 
     }
