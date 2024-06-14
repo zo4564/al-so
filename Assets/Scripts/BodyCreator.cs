@@ -112,7 +112,7 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
             newUIElement.GetComponentInChildren<Image>().enabled = true;
             newUIElement.GetComponentInChildren<Button>().enabled = false;
             newUIElement.GetComponentInChildren<JointCreator>().jointCenter = constrainedPosition;
-            newUIElement.GetComponentInChildren<JointCreator>().jointIndex = joints;
+            newUIElement.GetComponentInChildren<JointCreator>().jointIndex = joints + 1;
             newUIElement.GetComponentInChildren<JointCreator>().bodyCreator = this;
         }
         if (selector.selectedElementPrefab.name == "p")
@@ -135,10 +135,6 @@ public class BodyCreator : MonoBehaviour, IPointerClickHandler
         return newUIElement;
     }
 
-    public void AddToGenom(string bodyPart, Vector2 position, int jointIndex)
-    {
-        genomCode += "#" + bodyPart + jointIndex + position.ToString();
-    }
     private void AddClickDestroy(RectTransform element)
     {
         EventTrigger trigger = element.gameObject.AddComponent<EventTrigger>();

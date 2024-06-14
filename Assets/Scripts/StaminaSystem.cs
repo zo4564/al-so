@@ -7,7 +7,7 @@ public class StaminaSystem : MonoBehaviour
     public float energyCost = 1f;
     public Organism organism;
 
-    public float maxStamina = 100f;
+    public float maxStamina = 500f;
     public float currentStamina;
     // Start is called before the first frame update
     public void Run(float energyCostForOrganism)

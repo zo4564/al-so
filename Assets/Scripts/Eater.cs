@@ -59,11 +59,11 @@ public class Eater : MonoBehaviour
     }
     public void Eat()
     {
-        if (staminaSystem.currentStamina > 40)
-            reproductionSystem.collectedFood++;
-        else staminaSystem.RegenerateStamina();
+        
+        reproductionSystem.collectedFood++;
+        staminaSystem.RegenerateStamina();
 
-        if(reproductionSystem.CheckIfReady())
+        if(staminaSystem.currentStamina > 40 && reproductionSystem.CheckIfReady())
         {
             reproductionSystem.Reproduce();
             Debug.Log("reproduce");

@@ -11,6 +11,13 @@ public class SimulationCountData
     public List<SnapshotData> snapshots = new List<SnapshotData>();
 }
 
+[System.Serializable]
+public class CombinedData
+{
+    public SimulationGenomeData simulationGenomeData;
+    public SimulationCountData simulationCountData;
+}
+[System.Serializable]
 public class SimulationGenomeData
 {
     public List<SpeciesGenomeData> genomes = new List<SpeciesGenomeData>();
@@ -37,7 +44,9 @@ public class SpeciesGenomeData
 }
 public class DataCollector : MonoBehaviour
 {
-    public List<GameObject> organisms; 
+    public List<GameObject> organisms;
+    public int speciesCount;
+    public int aliveOrganisms;
     public float sampleInterval = 3f;
     public SimulationCountData simulationCountData = new SimulationCountData();
 
@@ -85,19 +94,23 @@ public class DataCollector : MonoBehaviour
                 {
                     speciesGenomes[speciesName] = organism.GetComponent<Genom>().code;
                 }
+                
             }
         }
 
+        aliveOrganisms = 0;
         foreach (var speciesCount in speciesCounts)
         {
             SpeciesCountData speciesData = new SpeciesCountData
             {
                 speciesName = speciesCount.Key,
                 aliveCount = speciesCount.Value
+                
             };
+            aliveOrganisms += speciesData.aliveCount;
             snapshotData.speciesDataList.Add(speciesData);
         }
-
+        speciesCount = snapshotData.speciesDataList.Count;
         simulationCountData.snapshots.Add(snapshotData);
 
         HashSet<string> trackedSpecies = new HashSet<string>(simulationGenomeData.genomes.Select(g => g.speciesName));
@@ -116,24 +129,21 @@ public class DataCollector : MonoBehaviour
             }
         }
 
-        foreach (var speciesGenome in simulationGenomeData.genomes)
-        {
-            Debug.Log(speciesGenome.speciesName + ": " + speciesGenome.genome);
-        }
+        
     }
 
 
     public void EndSimulation()
     {
 
-        string jsonSimData = JsonUtility.ToJson(simulationCountData, true);
-        string jsonGenData = JsonUtility.ToJson(simulationGenomeData, true);
+        CombinedData combinedData = new CombinedData();
+        combinedData.simulationGenomeData = simulationGenomeData;
+        combinedData.simulationCountData = simulationCountData;
 
+        string jsonCombinedData = JsonUtility.ToJson(combinedData, true);
 
-        string filePath = Path.Combine(Application.persistentDataPath, "simulationCountData.json");
-        SaveDataToFile(jsonSimData, filePath);
-        filePath = Path.Combine(Application.persistentDataPath, "simulationGenomeData.json");
-        SaveDataToFile(jsonGenData, filePath);
+        string filePath = Path.Combine(Application.persistentDataPath, "simulationData.json");
+        SaveDataToFile(jsonCombinedData, filePath);
     }
 
     private void SaveDataToFile(string jsonData, string filePath)

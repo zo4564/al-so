@@ -29,14 +29,15 @@ public class Organism : MonoBehaviour
     public void WakeUp(string genomCode)
     {
         genom.GenerateGenom(genomCode);
-        SpecifyOrganism(genomCode);
+        SpecifyOrganism(genom);
         staminaSystem.Run(genom.CalculateEnergyCost());
         reproductionSystem.UpdateAncestralGenomes(genomCode);
-        GetComponent<Mover>().TrailDelay();
+        //GetComponent<Mover>().TrailDelay();
 
     }
-    public void SpecifyOrganism(string genomCode)
+    public void SpecifyOrganism(Genom genom)
     {
+        Debug.Log(genom.code);
         spriteGenerator.GenerateBodyObjects(genom, gameObject);
         reproductionSystem.requiredFood = genom.CalculateRequiredFood();
         

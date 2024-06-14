@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -9,6 +10,13 @@ public class CameraController : MonoBehaviour
 
     public float followSpeed = 2f; 
     public Transform target;
+    public StaminaSystem staminaSystem;
+
+    public TextMeshProUGUI organismName;
+    public TextMeshProUGUI generation;
+    public TextMeshProUGUI stamina;
+    public GameObject organismPanel;
+    public string genome;
 
     void Update()
     {
@@ -18,10 +26,16 @@ public class CameraController : MonoBehaviour
         Vector3 moveDirection = new Vector3(horizontalInput, verticalInput, 0f).normalized;
         transform.position += moveSpeed * Time.deltaTime * moveDirection;
 
-        if (target != null)
+        if (target)
         {
+            organismPanel.SetActive(true);
             Vector3 newPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, newPosition, followSpeed * Time.deltaTime);
+            stamina.text = staminaSystem.currentStamina.ToString();
+        }
+        else
+        {
+            organismPanel.SetActive(false);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -41,6 +55,13 @@ public class CameraController : MonoBehaviour
 
             hitCollider.TryGetComponent<Mover>(out Mover mover);
             if (mover) { followSpeed = mover.moveSpeed; }
+            hitCollider.TryGetComponent<Organism>(out Organism organism);
+            if(organism)
+            {
+                organismName.text = organism.gameObject.name;
+                generation.text = organism.reproductionSystem.generation.ToString();
+                staminaSystem = organism.staminaSystem;
+            }
         }
         else target = null;
     }

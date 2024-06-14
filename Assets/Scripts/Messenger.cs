@@ -5,7 +5,7 @@ using UnityEngine;
 public class Messenger : MonoBehaviour
 {
     public DataCollector dataManager;
-    // Start is called before the first frame update
+
     void Awake()
     {
         dataManager = FindAnyObjectByType<DataCollector>();

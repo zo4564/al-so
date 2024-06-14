@@ -18,7 +18,7 @@ public class Mover : MonoBehaviour
     public Vector2 targetPosition;
     public Quaternion targetRotation;
     public float nextDirectionChangeTime;
-    public TrailRenderer trailRenderer;
+    //public TrailRenderer trailRenderer;
 
     private Vector3 lastPosition;
     private float stuckThreshold;
@@ -30,8 +30,8 @@ public class Mover : MonoBehaviour
     }
     private void OnEnable()
     {
-        trailRenderer = GetComponent<TrailRenderer>();
-        trailRenderer.enabled = false;
+        //trailRenderer = GetComponent<TrailRenderer>();
+        //trailRenderer.enabled = false;
         TrailDelay();
         
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
@@ -46,7 +46,7 @@ public class Mover : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
 
-        trailRenderer.enabled = true;
+        //trailRenderer.enabled = true;
     }
     private void Update()
     {

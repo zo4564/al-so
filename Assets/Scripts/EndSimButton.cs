@@ -11,7 +11,7 @@ public class EndSimButton : MonoBehaviour
     public void LoadScene()
     {
         Destroy(FindObjectOfType<SpeciesManager>().gameObject);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
 
     }
 }

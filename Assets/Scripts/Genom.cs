@@ -42,14 +42,16 @@ public class Genom : MonoBehaviour
         if (rand < mutationFactor / 2)
         {
             MutateRemove();
-            Debug.Log("mutation add");
+            Debug.Log("mutation remove");
         }
         else if(rand < mutationFactor) 
         {
             MutateAdd();
-            Debug.Log("mutation remove");
+            Debug.Log("mutation add");
         }
         codeLength = bodyParts.Count;
+
+        code = GenerateOrganismCode();
     }
 
 
@@ -66,6 +68,7 @@ public class Genom : MonoBehaviour
             position = Vector2.zero;
 
         bodyParts.Add(bodyPart);
+        Debug.Log("added part " + bodyPart);
         positions.Add(position);
         code = UpdateGenomCode(bodyPart, position);
           
@@ -77,9 +80,12 @@ public class Genom : MonoBehaviour
 
         int randomIndex = UnityEngine.Random.Range(0, bodyParts.Count);
 
-        bodyParts.RemoveAt(randomIndex);
-        positions.RemoveAt(randomIndex);
-        code = GenerateOrganismCode();
+        if (!bodyParts[randomIndex][0].Equals('j'))
+        {
+            bodyParts.RemoveAt(randomIndex);
+            positions.RemoveAt(randomIndex);
+            code = GenerateOrganismCode();
+        }
 
 
 
@@ -155,7 +161,7 @@ public class Genom : MonoBehaviour
             bodyPartsToGenerate.Add("p");
         }
 
-        int jointIndex = UnityEngine.Random.Range(0, joints + 1);
+        int jointIndex = UnityEngine.Random.Range(0, joints);
         string newBodyPart = bodyPartsToGenerate[UnityEngine.Random.Range(0, bodyPartsToGenerate.Count)];
 
         if (newBodyPart.Equals("j"))
@@ -179,55 +185,31 @@ public class Genom : MonoBehaviour
     }
     public int CalculateRequiredFood()
     {
-        int food = 0;
-        for (int i = 0; i < codeLength; i++)
-        {
-            food++;
-            if (bodyParts[i].Equals("l"))
-            {
-                food += Convert.ToInt32(positions[i].x / 2);
-            }
-            if (bodyParts[i].Equals("g"))
-            {
-                food += 2;
-            }
-            if (bodyParts[i].Equals("a"))
-            {
-               food += 2;
-            }
-            if (bodyParts[i].Equals("p"))
-            {
-                food = 1;
-            }
-        }
-
+        int food = codeLength / 2;
         if (food < 3)
             food = 3;
         return food;
     }
     public float CalculateEnergyCost()
     {
-        float energyCost = bodyParts.Count / 2;
-        //for (int i = 0; i < bodyParts.Count; i++)
-        //{
-            
-        //    if (bodyParts[i].Equals("l"))
-        //    {
-        //        energyCost += Convert.ToInt32(positions[i].x) / 2;
-        //    }
-        //    if (bodyParts[i].Equals("g"))
-        //    {
-        //        energyCost += 0.5f;
-        //    }
-        //    if (bodyParts[i].Equals("a"))
-        //    {
-        //        energyCost += 0.5f;
-        //    }
-        //    if (bodyParts[i].Equals("p"))
-        //    {
-        //        energyCost /= 2f;
-        //    }
-        //}
+        float energyCost = bodyParts.Count / 3;
+        if(energyCost < 3) energyCost = 3;
+        for (int i = 0; i < bodyParts.Count; i++)
+        {
+
+            if (bodyParts[i].Equals("l"))
+            {
+                energyCost += Convert.ToInt32(positions[i].x) / 5;
+            }
+            if (bodyParts[i].Equals("g"))
+            {
+                energyCost += 0.5f;
+            }
+            if (bodyParts[i].Equals("a"))
+            {
+                energyCost += 0.5f;
+            }
+        }
         return energyCost;
     }
 
@@ -267,6 +249,11 @@ public class Genom : MonoBehaviour
 
                 float x = float.Parse(coordX, CultureInfo.InvariantCulture);
                 float y = float.Parse(coordY, CultureInfo.InvariantCulture);
+
+                if (bodyPart[0].ToString().Equals("l"))
+                {
+                    x *= UnityEngine.Random.Range(0.8f, 1.2f);
+                }
                 positions.Add(new Vector2(x, y));
                 
             }

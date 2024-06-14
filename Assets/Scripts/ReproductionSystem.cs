@@ -66,7 +66,7 @@ public class ReproductionSystem : MonoBehaviour
     }
     public bool CheckIfReady()
     {
-        if (collectedFood > requiredFood)
+        if (collectedFood >= requiredFood)
         {
             return true;
         }
@@ -74,10 +74,15 @@ public class ReproductionSystem : MonoBehaviour
     }
     public void UpdateStrain(string parentStrain)
     {
-        if(ancestralGenomes.Count >= 2)
+        if (ancestralGenomes.Count >= 2)
         {
-            //Debug.Log(ancestralGenomes[^1] + "comparing to: " + ancestralGenomes[ancestralGenomes.Count - 2]);
-            if (ancestralGenomes[^1].Equals(ancestralGenomes[ancestralGenomes.Count - 2]))
+            string lastGenome = ancestralGenomes[^1];
+            string secondLastGenome = ancestralGenomes[ancestralGenomes.Count - 2];
+
+            string processedLastGenome = ProcessGenomeCode(lastGenome);
+            string processedSecondLastGenome = ProcessGenomeCode(secondLastGenome);
+
+            if (processedLastGenome.Equals(processedSecondLastGenome))
             {
                 strain = parentStrain;
             }
@@ -86,9 +91,24 @@ public class ReproductionSystem : MonoBehaviour
                 strain = NewStrain();
             }
         }
-
     }
-    
+
+    private string ProcessGenomeCode(string genomeCode)
+    {
+        int lIndex = genomeCode.IndexOf('l');
+        if (lIndex == -1)
+        {
+            return genomeCode; 
+        }
+
+        string partBeforeL = genomeCode.Substring(0, lIndex);
+
+        int nextSeparatorIndex = genomeCode.IndexOf('#', lIndex + 1);
+        string partAfterL = nextSeparatorIndex == -1 ? string.Empty : genomeCode.Substring(nextSeparatorIndex);
+
+        return partBeforeL + partAfterL;
+    }
+
     public void UpdateAncestralGenomes(string genom)
     {
         ancestralGenomes ??= new List<string>();
@@ -117,20 +137,27 @@ public class ReproductionSystem : MonoBehaviour
     }
     public void SetFirstGeneration(string speciesName, string speciesGenomCode)
     {
-
         collectedFood = 0;
         strain = "al";
         generation = 0;
 
         string genomCode = GetComponent<Organism>().genom.code;
-        //Debug.Log(genomCode + "comparing: " + speciesGenomCode);
-        if(!genomCode.Equals(speciesGenomCode))
+        Debug.Log(genomCode + " comparing: " + speciesGenomCode);
+
+        string genomCodePart = TruncateAtCharacter(genomCode, 'l');
+        string speciesGenomCodePart = TruncateAtCharacter(speciesGenomCode, 'l');
+
+        if (!genomCodePart.Equals(speciesGenomCodePart))
         {
             strain = NewStrain();
         }
         name = speciesName + "-" + strain.ToString();
+    }
 
-
+    private string TruncateAtCharacter(string value, char delimiter)
+    {
+        int index = value.IndexOf(delimiter);
+        return index == -1 ? value : value.Substring(0, index);
     }
     public void Reset()
     {

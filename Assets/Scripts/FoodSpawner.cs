@@ -1,14 +1,16 @@
 using UnityEngine;
 
 using System.Collections;
+using UnityEngine.UI;
 
 public class FoodSpawner : ObjectSpawner
 {
     public FoodObjectPool foodPool;
     public int spawnedFood = 0;
     public int maxFoodCapacity = 1000;
-    public float feedingTime = 100f;
+    public float feedingTime = 50f;
     public int feedingAmount = 10;
+    public Slider foodSlider;
 
     private void Start()
     {
@@ -27,5 +29,9 @@ public class FoodSpawner : ObjectSpawner
                     
             }
         }
+    }
+    public void SetFeedingAmout()
+    {
+        feedingAmount = (int)foodSlider.value;
     }
 }

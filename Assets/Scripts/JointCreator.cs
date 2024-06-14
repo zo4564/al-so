@@ -9,21 +9,20 @@ public class JointCreator : MonoBehaviour, IPointerClickHandler
     public Vector2 jointCenter;
     public int jointIndex;
 
+    public BodyElementSelector selector;
+
     //public RectTransform jointCreatorRectTransform;
     public void Start()
     {
-        //jointCreatorRectTransform = GetComponentInParent<RectTransform>();
-        //jointCenter = jointCreatorRectTransform.position;
-        Debug.Log("dzia³am");
-        Debug.Log(jointCenter);
-        Debug.Log(jointIndex);
+        selector = FindObjectOfType<BodyElementSelector>();
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        // zrób tak zbey po klikniêciu w jointa u¿ywa³a siê metoda body creatora:
-        //oblicza³a siê pozycja od œtordka jointa
-        //ustawia³ siê genom z odpowiedni¹ nazw¹
-        bodyCreator.PlaceBodyPart(eventData, jointCenter, jointIndex - 1);
+        if (selector.selectedElementPrefab && selector.selectedElementPrefab.name != "jointBase")
+        {
+            bodyCreator.PlaceBodyPart(eventData, jointCenter, jointIndex - 2);
+        }
+                
         
 
     }
