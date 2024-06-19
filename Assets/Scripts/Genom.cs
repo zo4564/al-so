@@ -39,13 +39,14 @@ public class Genom : MonoBehaviour
         ParseGenomCode(genomCode);
 
         int rand = UnityEngine.Random.Range(0, 100);
-        if (rand < mutationFactor / 2)
+        //if (rand < mutationFactor / 2)
+        if(true)
         {
-            MutateRemove();
-            Debug.Log("mutation remove");
-        }
-        else if(rand < mutationFactor) 
-        {
+           // MutateRemove();
+            //Debug.Log("mutation remove");
+        //}
+        //else if(rand < mutationFactor) 
+        //{
             MutateAdd();
             Debug.Log("mutation add");
         }
@@ -66,8 +67,11 @@ public class Genom : MonoBehaviour
             position = GenerateMoverVector();
         if (bodyPart[0].Equals('a'))
             position = Vector2.zero;
+        if (bodyPart[0].Equals('j'))
+            position *= 2.5f;
+        
 
-        bodyParts.Add(bodyPart);
+            bodyParts.Add(bodyPart);
         Debug.Log("added part " + bodyPart);
         positions.Add(position);
         code = UpdateGenomCode(bodyPart, position);
@@ -192,24 +196,24 @@ public class Genom : MonoBehaviour
     }
     public float CalculateEnergyCost()
     {
-        float energyCost = bodyParts.Count / 3;
-        if(energyCost < 3) energyCost = 3;
+        float energyCost = 0;
         for (int i = 0; i < bodyParts.Count; i++)
         {
-
             if (bodyParts[i].Equals("l"))
             {
                 energyCost += Convert.ToInt32(positions[i].x) / 5;
             }
-            if (bodyParts[i].Equals("g"))
+            if (bodyParts[i].Equals("g") || bodyParts[i].Equals("a"))
             {
                 energyCost += 0.5f;
             }
-            if (bodyParts[i].Equals("a"))
+            else if (!bodyParts[i].Equals("j"))
             {
-                energyCost += 0.5f;
+                energyCost += 1f;
             }
         }
+        energyCost /= 3;
+        if(energyCost < 3) energyCost = 3;
         return energyCost;
     }
 

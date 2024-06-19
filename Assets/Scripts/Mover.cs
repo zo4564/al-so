@@ -48,6 +48,11 @@ public class Mover : MonoBehaviour
 
         //trailRenderer.enabled = true;
     }
+    public void SetSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+
     private void Update()
     {
     }

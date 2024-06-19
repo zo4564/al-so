@@ -142,12 +142,10 @@ public class ReproductionSystem : MonoBehaviour
         generation = 0;
 
         string genomCode = GetComponent<Organism>().genom.code;
-        Debug.Log(genomCode + " comparing: " + speciesGenomCode);
+        string processedGenomeCode = ProcessGenomeCode(genomCode);
 
-        string genomCodePart = TruncateAtCharacter(genomCode, 'l');
-        string speciesGenomCodePart = TruncateAtCharacter(speciesGenomCode, 'l');
 
-        if (!genomCodePart.Equals(speciesGenomCodePart))
+        if (!processedGenomeCode.Equals(speciesGenomCode))
         {
             strain = NewStrain();
         }

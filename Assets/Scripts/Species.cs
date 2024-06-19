@@ -23,6 +23,6 @@ public struct Species
 
     public override string ToString()
     {
-        return $"Id: {Id}, SpeciesName: {SpeciesName}, Genom: {GenomCode}, Count: {Count}, Moving: {Moving}, Defender: {Defender}, Speed: {Speed}";
+        return $"{SpeciesName}, {Count}";
     }
 }

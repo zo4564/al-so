@@ -9,5 +9,9 @@ public class MenuButtons : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+    public void StartSpeciesFromGenomes()
+    {
+        SceneManager.LoadScene(4);
+    }
 }
 

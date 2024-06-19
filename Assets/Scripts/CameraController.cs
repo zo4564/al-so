@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class CameraController : MonoBehaviour
     public TextMeshProUGUI stamina;
     public GameObject organismPanel;
     public string genome;
+    public TextMeshProUGUI copyButtonText;
 
     void Update()
     {
@@ -28,14 +30,9 @@ public class CameraController : MonoBehaviour
 
         if (target)
         {
-            organismPanel.SetActive(true);
             Vector3 newPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, newPosition, followSpeed * Time.deltaTime);
             stamina.text = staminaSystem.currentStamina.ToString();
-        }
-        else
-        {
-            organismPanel.SetActive(false);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -61,9 +58,18 @@ public class CameraController : MonoBehaviour
                 organismName.text = organism.gameObject.name;
                 generation.text = organism.reproductionSystem.generation.ToString();
                 staminaSystem = organism.staminaSystem;
+                genome = organism.genom.code;
+                copyButtonText.text = "copy genome";
             }
         }
         else target = null;
+    }
+    public void CopyNameToClipboard()
+    {
+        GUIUtility.systemCopyBuffer = genome;
+        Debug.Log("copied: " + genome);
+        copyButtonText.text = "copied!";
+        
     }
 
 }
